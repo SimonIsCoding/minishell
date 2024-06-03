@@ -6,7 +6,7 @@
 /*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/29 16:04:57 by asiercara        ###   ########.fr       */
+/*   Updated: 2024/06/03 14:47:41 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@
 // Builtins
 
 //s_env
+//for this structure, we will work with the environment variables
+//for example: $USER=login
 typedef struct	s_builtin
 {
-	char				*key;
-	char				*value;
-	int					index;//this variable may be useless
+	char				*key;//the name of the env variable => here key = $USER
+	char				*value;//the content of the variable => here value = login
+	int					index;//the index of the node in t_builtin list
 	struct s_builtin	*next;
 }				t_builtin;
 
@@ -61,22 +63,20 @@ t_global_var		g_global_var;
 
 typedef struct s_mini
 {
-	char					*line;
+	char					*line;//
 	char					**original_env;
 	char					*pwd;
 	char					*old_pwd;
 	t_builtin				*env;
 	// hacer free solo al final exit
-	char					**env_cpy;
+	char					**env_cpy;//we need this variable only for one parameter of the execve function
 	struct s_lexer			*lexer;
 	int						pipes;
 	int						count_infiles;
 	int						flag_hdoc;
 	int						*pid;
-	int						error_code;
+	int						error_code;//we need to know what was the last error_code number to send it for the exit function
 	struct s_cmd		*cmd;
-	// meter tu estructura de builtins
-	//t_builtin
 }	t_mini;
 
 //		Enum for builtins
@@ -90,7 +90,7 @@ enum	e_builtins
 	UNSET,
 	ENV,
 	EXIT,
-	NOT_HAVE,
+	NOT_HAVE,//it means that the command is not a builtin => we execute it with the execve function
 };
 
 //		Enum for code errors
@@ -101,7 +101,7 @@ enum	e_error_codes
 	MALLOC_ERROR,		// allocation error
 	IN_ERROR,			// infile error
 	OUT_ERROR,			// outfile error
-	PIPE_ERROR,
+	PIPE_ERROR,			//pipe error => for example we executed too much pipe/process as the same time
 	FORK_ERROR,
 	DUP2_ERROR,
 	CMD_NOT_FOUND_ERROR,
@@ -123,37 +123,51 @@ enum e_operator
 
 //		Struct for the lexer/tokenizer
 
+//for example if we have:
+//ls -l > outfile
+//this structure has to classify the word of the line we received
 typedef struct s_lexer
 {
-	char				*str;
-	enum e_operator		token;
-	int					num_node;
+	char				*str;//letters separated by space. 							ie: 'ls' or '-l' or '>' or 'outfile'
+	enum e_operator		token;//the number that corresponds to the operator list.	ie:   0       0      3         0
+	int					num_node;//the index of the node in the list				ie:   0		  1      2         3
 	struct s_lexer		*next;
 }	t_lexer;
 
 //		Struct for parser
-
+//for example if we have:
+//ls -l > outfile
 typedef struct s_parser
 {
 	t_lexer			*lexer;
 	t_lexer			*redirections;
-	int				num_redirections;
+	int				num_redirections;//the number of redirections that we have. In this example 1
 	struct s_mini	*mini;
 }	t_parser;
 
 
 //typedef void (*builtin)(t_mini *mini, t_cmd *cmd);
 
+//this is the strcutre that contains all the commands of the line received
+//our command node this structure. 1 node represents 1 command.
+//1 command means everything before encountering a pipe or the end of line
+//for example : ls -l | echo a > outfile
+//we will have: 
 typedef struct s_cmd
 {
-	char					**str;
-	enum e_builtins			builtin;
-	int						num_redirections;
-	char					*hdoc_filename;
-	t_lexer					*redirections;
+	char					**str;//regarding our example: "ls -l" or "echo a"
+	enum e_builtins			builtin;//					 :    8          1
+	int						num_redirections;//			 :    0          1
+	char					*hdoc_filename;//			 :   NULL	    NULL
+	t_lexer					*redirections;//holds the token '>' and the redirection filename || the oef (for the hdoc)
 	struct s_cmd		*next;
 	struct s_cmd		*previous;
 }	t_cmd;
+//⚠️  when the nodes are added to the redirections list, thoses nodes are deleted from the lexer list
+//to manage the redirections and the commands more easily
+//for example if we have: echo > outfile "Hello World!"
+//once we have put '> outfile' in the t_lexer redirections list, it gets out of
+//the lexer list, to manage at the end: echo "Hello World!" (then we will put the string in that redirections)
 
 // Test functions
 
