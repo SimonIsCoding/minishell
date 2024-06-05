@@ -6,11 +6,11 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 14:49:37 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/23 14:47:28 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:49:54 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 //we want a function to know if the expanded variable has to be expanded or not
 //for example, if we have: echo '$test' => we don't have to expand it =>output: $test

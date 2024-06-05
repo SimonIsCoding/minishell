@@ -6,7 +6,7 @@
 #    By: asiercara <marvin@42.fr>                   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 19:09:01 by asiercara         #+#    #+#              #
-#    Updated: 2024/05/31 10:40:07 by anovio-c         ###   ########.fr        #
+#    Updated: 2024/06/05 11:55:09 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,7 @@ $(PATHO)%.o:: $(PATHEX)%.c $(HEADER)
 	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADER)
-	@$(CC) $(FLAGS) $(LIBFT) $(OBJS) $(READLINE_LIB) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) $(READLINE_LIB) $(LIBFT) -o $(NAME)
 
 	@echo "Success"
 

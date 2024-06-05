@@ -6,7 +6,7 @@
 /*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/03 14:47:41 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:45:22 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct	s_global_var
 	int		error_code;
 }				t_global_var;
 
-t_global_var		g_global_var;
+extern t_global_var		g_global_var;
 
 // 		Main struct
 

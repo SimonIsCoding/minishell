@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:25:52 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/14 13:04:40 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:50:23 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	builtin_unset(t_mini *mini, t_builtin **head, t_cmd *cmd)
 		}
 	}
 	if (mini)
-		printf("");
+		printf("TEST Builtin unset");
 	// buioint pwd actualizar lista nodos env verficiar si hay pwd y si no cogerlo del getcurrent directory y actualizar el nodo;
 	ft_free_double_array(mini->env_cpy);
 	concat_lst_env(mini);

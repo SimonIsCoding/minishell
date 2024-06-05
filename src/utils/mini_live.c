@@ -6,7 +6,7 @@
 /*   By: asiercara <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:52:42 by asiercara         #+#    #+#             */
-/*   Updated: 2024/05/31 20:19:37 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:49:38 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ void	lst_clear_cmds(t_cmd **cmd)
         return;
     tmp_cmd = *cmd;
     while (tmp_cmd && tmp_cmd->previous)
+	{
         tmp_cmd = tmp_cmd->previous;
+	}
 	*cmd = tmp_cmd;
 	while (*cmd)
 	{ 
