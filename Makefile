@@ -6,13 +6,13 @@
 #    By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 11:57:11 by simarcha          #+#    #+#              #
-#    Updated: 2024/06/06 14:10:37 by simarcha         ###   ########.fr        #
+#    Updated: 2024/06/06 19:00:24 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #SETUP
 CC                  = gcc
-CFLAGS              = -Wall -Werror -Wextra
+CFLAGS              = -Wall -Werror -Wextra -g
 NAME                = minishell
 RM                  = rm -rf
 

@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:29:34 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/06 15:17:51 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:58:18 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ static int	check_flag(char *flag)
 	return (0);
 }
 
+static	void	check_error_code(t_mini *mini, t_cmd *command, int i)
+{
+	if (command->str[i] && (ft_strcmp(command->str[i], "$?") == 0))
+	{
+		printf("command->str[i] = _%s_\n", command->str[i]);
+		printf("%i\n", mini->error_code);
+	}	
+}
+
 //in this function there is the same verification as the previous one
 //because the user can write: echo -n -n -nnnn -nn test
 //and we have to return, without line break: test
@@ -60,6 +69,7 @@ static int	builtin_echo_flag_n(t_mini *mini, t_cmd *command, int i, int wc)
 		while (command->str[i] && (ft_strcmp_simple(command->str[i], "-n") == 0
 				|| check_flag(command->str[i]) == 1))
 			i++;
+		check_error_code(mini, command, i);
 		write(1, "bruh\n", 5);
 		printf("command->str[i] = _%s_\n", command->str[i]);
 		content = final_expansion(mini, command->str[i]);
@@ -87,21 +97,18 @@ int	builtin_echo(t_mini *mini, t_cmd *command)
 	int		i;
 	char	*content;
 
+	write(1, "bruh\n", 5);
 	wordcount = lines_counter(command->str);
 	printf("wordcount = %i\n", wordcount);
 	i = 1;
 	if (command->str[i] && (ft_strcmp_simple(command->str[i], "-n") == 0
 			|| check_flag(command->str[i]) == 1))//if we have the flag -n
 		return (builtin_echo_flag_n(mini, command, 2, wordcount));
-	else if (command->str[i] && (ft_strcmp(command->str[i], "$?") == 0))
-	{
-		printf("command->str[i] = _%s_\n", command->str[i]);
-		printf("%i\n", mini->error_code);
-	}
 	else//if there is no flag and only the echo cmd
 	{
 		while (command->str[i])
 		{
+			check_error_code(mini, command, i);
 			printf("command->str[i] = _%s_\n", command->str[i]);
 			content = final_expansion(mini, command->str[i]);
 			if (!content)

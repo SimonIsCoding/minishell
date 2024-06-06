@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 14:49:37 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/06 18:23:35 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:36:31 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,10 @@ char	*expanded_string(t_mini *mini, char *str)
 	char	*expanded_key;
 	char	*expanded_value;
 
-	expanded_key = get_expansion_key(mini, str);//to protect && to free
+	expanded_key = get_expansion_key(mini, str);
 	if (!expanded_key)
 		print_error(mini, 2);
-	expanded_value = search_and_replace_variable(mini->env, expanded_key);//to protect && to free
+	expanded_value = search_and_replace_variable(mini->env, expanded_key);
 	if (!expanded_value)
 		print_error(mini, 2);
 	j = (int)ft_strlen(expanded_value);
