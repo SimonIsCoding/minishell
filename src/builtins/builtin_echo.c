@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:29:34 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/31 19:49:54 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:17:51 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static int	builtin_echo_flag_n(t_mini *mini, t_cmd *command, int i, int wc)
 		while (command->str[i] && (ft_strcmp_simple(command->str[i], "-n") == 0
 				|| check_flag(command->str[i]) == 1))
 			i++;
-		//printf("command->str[i] = _%s_\n", command->str[i]);
+		write(1, "bruh\n", 5);
+		printf("command->str[i] = _%s_\n", command->str[i]);
 		content = final_expansion(mini, command->str[i]);
 		if (!content)
 			print_error(mini, 2);
@@ -92,13 +93,16 @@ int	builtin_echo(t_mini *mini, t_cmd *command)
 	if (command->str[i] && (ft_strcmp_simple(command->str[i], "-n") == 0
 			|| check_flag(command->str[i]) == 1))//if we have the flag -n
 		return (builtin_echo_flag_n(mini, command, 2, wordcount));
-	//else if (command->str[i] && (ft_strcmp(command->str[i], "$?") == 0))
-		//printf("%i\n", mini->exit_code);
+	else if (command->str[i] && (ft_strcmp(command->str[i], "$?") == 0))
+	{
+		printf("command->str[i] = _%s_\n", command->str[i]);
+		printf("%i\n", mini->error_code);
+	}
 	else//if there is no flag and only the echo cmd
 	{
 		while (command->str[i])
 		{
-			//printf("command->str[i] = _%s_\n", command->str[i]);
+			printf("command->str[i] = _%s_\n", command->str[i]);
 			content = final_expansion(mini, command->str[i]);
 			if (!content)
 				print_error(mini, 2);

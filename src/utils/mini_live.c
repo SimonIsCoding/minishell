@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   mini_live.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asiercara <marvin@42.fr>                   +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:52:42 by asiercara         #+#    #+#             */
-/*   Updated: 2024/06/05 11:49:38 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:33:27 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-// this function is for do the cycle of live for every line receives from readline
+// this function represents the cycle of life for every command line receives from readline
 
 int	mini_live(t_mini *mini)
 {
 	// valorar hacer un bucle para no forzar a que entre dentor de una funcion de otra de otra de otra
 	//init_mini(mini);
-	mini->line = readline("shelldone 🔥 >");
+	mini->line = readline("shelldone >");
 	clear_line(mini);
-	if (mini->line == NULL) // uede que segfault este aqui
+	if (mini->line == NULL) // quede que segfault este aqui
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
 		exit(EXIT_SUCCESS);

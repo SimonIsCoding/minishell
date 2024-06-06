@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_len_for_malloc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:17:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/30 16:39:49 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:24:44 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️
 	result[tmp] = '\0';
 	return (result);
 }
+
 
 //I had norminette issues so I had to cut the calculate_len_for_malloc function
 void	manage_dollar_variable(t_mini *mini, char *str, int *i, int *counter)
