@@ -3,142 +3,125 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asiercara <marvin@42.fr>                   +#+  +:+       +#+         #
+#    By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/28 19:09:01 by asiercara         #+#    #+#              #
-#    Updated: 2024/06/05 11:55:09 by simarcha         ###   ########.fr        #
+#    Created: 2024/06/06 11:57:11 by simarcha          #+#    #+#              #
+#    Updated: 2024/06/06 12:49:01 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
-MKDIR = mkdir
+#SETUP
+CC                  = gcc
+CFLAGS              = -Wall -Werror -Wextra
+NAME                = minishell
+RM                  = rm -rf
 
-CC = gcc
+#FILES AND PATHS
+#INCLUDE - Where the header files are located
+INCLUDE_DIR         = includes/
+INCLUDE_FILES       = minishell.h \
+                      libft.h
+INCLUDE             = $(addprefix $(INCLUDE_DIR), $(INCLUDE_FILES))
+INCLUDE_FLAGS       = -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
 
-LIBFTP = libft
-PATHB = build/
-PATHO = build/objs/
-PATHS = src/
-PATHSL = src/lexer/
-PATHSP = src/parser/
-PATHSB = src/builtins/
-PATHSEX = src/expander/
-PATHSU = src/utils/
-PATHSE = src/errors/
-PATHEX = src/executor/
+#SRCS - Where the main files for this project are located
+SRCS_DIR            = src/
+SRCS_FILES          = main.c \
+                      lexer/tokenizer.c \
+                      lexer/utils_lexer.c \
+                      lexer/utils_nodes_lexer.c \
+                      lexer/utils_nodes_aux.c \
+                      parser/parser.c \
+                      parser/redirections_parser.c \
+                      parser/utils_parser.c \
+                      parser/utils_nodes_parser.c \
+                      executor/executor.c \
+                      executor/hdoc.c \
+                      executor/run_cmds.c \
+                      executor/redirections.c \
+                      executor/utils_executor.c \
+                      utils/mini_live.c \
+                      utils/verify_quotes.c \
+                      expander/expander.c \
+                      expander/manage_quotes.c \
+                      expander/calculate_len_for_malloc.c \
+                      expander/expand_the_line.c \
+                      expander/check_before_expansion.c \
+                      expander/word_splitting.c \
+                      expander/utils_expander.c \
+                      errors/parser_errors.c \
+                      builtins/builtin_echo.c \
+                      builtins/builtin_pwd.c \
+                      builtins/builtin_env.c \
+                      builtins/builtin_exit.c \
+                      builtins/builtin_utils_nodes.c \
+                      builtins/builtin_export.c \
+                      builtins/builtin_export_helper.c \
+                      builtins/builtin_unset.c \
+                      builtins/builtin_cd.c \
+                      utils/signals.c
+SRCS                = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
+OBJ_SRCS            = $(SRCS:.c=.o)
 
-BUILD_PATHS = $(PATHB) $(PATHO)
+#READLINE
+READLINE_DIR        = ./readline-8.1
+READLINE_LIB        = -lreadline -lhistory -L$(READLINE_DIR)
 
-src	= 	src/main.c 								\
-		src/lexer/tokenizer.c					\
-		src/lexer/utils_lexer.c					\
-		src/lexer/utils_nodes_lexer.c			\
-		src/lexer/utils_nodes_aux.c				\
-		src/parser/parser.c						\
-		src/parser/redirections_parser.c		\
-		src/parser/utils_parser.c				\
-		src/parser/utils_nodes_parser.c			\
-		src/executor/executor.c					\
-		src/executor/hdoc.c						\
-		src/executor/run_cmds.c					\
-		src/executor/redirections.c				\
-		src/executor/utils_executor.c			\
-		src/utils/mini_live.c					\
-		src/utils/verify_quotes.c				\
-		src/expander/expander.c   				\
-		src/expander/manage_quotes.c			\
-		src/expander/calculate_len_for_malloc.c	\
-		src/expander/expand_the_line.c			\
-		src/expander/check_before_expansion.c	\
-		src/expander/word_splitting.c			\
-		src/expander/utils_expander.c 			\
-		src/errors/parser_errors.c				\
-		src/builtins/builtin_echo.c				\
-		src/builtins/builtin_pwd.c	 			\
-		src/builtins/builtin_env.c				\
-		src/builtins/builtin_exit.c				\
-		src/builtins/builtin_utils_nodes.c		\
-		src/builtins/builtin_export.c			\
-		src/builtins/builtin_export_helper.c	\
-		src/builtins/builtin_unset.c			\
-		src/builtins/builtin_cd.c				\
-		src/utils/signals.c 					\
-		#src/utils/utils.c						\
+#LIBFT 
+LIBFT_DIR           = libft/
+LIBFT_ARCHIVE       = $(addprefix $(LIBFT_DIR), libft.a)
+LIBFT_LIB           = -L$(LIBFT_DIR) -lft
 
+#RULES AND COMMANDS
+all:						$(LIBFT_ARCHIVE) $(NAME)
 
-OBJS	=	$(addprefix $(PATHO), $(notdir $(patsubst %.c, %.o, $(src))))
+$(SRCS_DIR)%.o:				$(SRCS_DIR)%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-FLAGS	=	-Wall -Werror -Wextra -g #-fsanitize=address
+$(SRCS_DIR)lexer/%.o:		$(SRCS_DIR)lexer/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-LIBFT	=	./libft/libft.a
+$(SRCS_DIR)parser/%.o:		$(SRCS_DIR)parser/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-HEADER	=	includes/minishell.h
+$(SRCS_DIR)executor/%.o:	$(SRCS_DIR)executor/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-READLINE_DIR = $(shell brew --prefix readline)
+$(SRCS_DIR)utils/%.o:		$(SRCS_DIR)utils/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
-	
-INCLUDES =-Iincludes -I$(PATHP) -I$(LIBFTP) -I$(READLINE_DIR)/include 
+$(SRCS_DIR)expander/%.o:	$(SRCS_DIR)expander/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-all: $(BUILD_PATHS) $(NAME)
+$(SRCS_DIR)errors/%.o:		$(SRCS_DIR)errors/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-$(PATHO)%.o:: $(PATHS)%.c
-	@echo "Compiling ${notdir $<}			in	$(PATHS)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
+$(SRCS_DIR)builtins/%.o:	$(SRCS_DIR)builtins/%.c $(INCLUDE)
+							@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
-$(PATHO)%.o:: $(PATHSL)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHSL)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
+$(NAME):					$(OBJ_SRCS) $(LIBFT_ARCHIVE) Makefile
+							@$(CC) $(CFLAGS) $(OBJ_SRCS) $(LIBFT_LIB) $(READLINE_LIB) -o $(NAME)
+							@echo "\033[1;32m\033[1mSuccessfully built $(NAME).\033[0m"
 
-$(PATHO)%.o:: $(PATHSP)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHSP)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
-
-$(PATHO)%.o:: $(PATHSB)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHSB)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
-
-$(PATHO)%.o:: $(PATHSEX)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHSEX)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
-
-$(PATHO)%.o:: $(PATHSU)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHSU)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
-
-$(PATHO)%.o:: $(PATHSE)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHSE)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
-
-$(PATHO)%.o:: $(PATHEX)%.c $(HEADER)
-	@echo "Compiling ${notdir $<}			in	$(PATHEX)"
-	@$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
-
-$(NAME): $(LIBFT) $(OBJS) $(HEADER)
-	@$(CC) $(FLAGS) $(OBJS) $(READLINE_LIB) $(LIBFT) -o $(NAME)
-
-	@echo "Success"
-
-$(LIBFT):
-	@$(MAKE) -C ./libft
-
-$(PATHB):
-	@$(MKDIR) $(PATHB)
-
-$(PATHO):
-	@$(MKDIR) $(PATHO)
-
+$(LIBFT_ARCHIVE):
+							@$(MAKE) -s -C $(LIBFT_DIR)
+							@echo "\033[1;32m\033[1mAll Libft files compiled in $(LIBFT_DIR).\033[0m"
+							
 clean:
-	@echo "Cleaning"
-	@rm -f $(OBJS)
-	@rm -f $(PATHB).tmp*
-	@rmdir $(PATHO) $(PATHB)
-	@make fclean -C libft
+							@echo "\033[1;31m\033[1mDeleting every object file\033[0m" 
+							@echo "\033[1mCleaning the object src files\033[0m"
+							$(RM) $(OBJ_SRCS)
+							@echo ""
+							@echo "\033[1mCleaning the object libft files\033[0m"
+							@$(MAKE) clean -C $(LIBFT_DIR)
 
-fclean: clean
-	@rm -f $(NAME)
-	@rm -f $(LIBFT)
+fclean:						clean
+							@echo "\033[1;31m\033[1mDeleting the executable and archive files\033[0m" 
+							$(RM) $(NAME)
+							@echo ""
+							@echo "\033[1;31m\033[1mCleaning the libft object and archive files\033[0m"
+							@$(MAKE) fclean -C $(LIBFT_DIR)
 
-re: fclean all
+re:							fclean all
 
-.PRECIOUS: $(PATHO)%.o
+.PHONY:						all clean fclean re
