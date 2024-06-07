@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:17:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/06 18:34:46 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:52:40 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	variable_existence(t_mini *mini, char *str, int i)
 	t_builtin	*tmp;
 	int			k;
 	int			j;
-	char		*env_key;
+	char		*env_key; 
 
 	i++;
 	k = i;
 	j = 0;
-	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_' || (ft_isdigit(str[i]) && i != k)))
 	{
 		j++;
 		i++;
@@ -46,7 +46,7 @@ int	variable_existence(t_mini *mini, char *str, int i)
 		print_error(mini, 2);
 	i = k;
 	j = 0;
-	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_' || (ft_isdigit(str[i]) && i != k)))
 		env_key[j++] = str[i++];
 	tmp = mini->env;
 	while (tmp)
@@ -79,7 +79,7 @@ char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️
 	counter = 0;
 	(*i)++;
 	tmp = *i;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
+	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_' || (ft_isdigit(str[*i]) && *i != tmp)))
 	{
 		counter++;
 		(*i)++;
@@ -89,7 +89,7 @@ char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️
 		print_error(mini, 2);
 	*i = tmp;
 	tmp = 0;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
+	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_' || (ft_isdigit(str[*i]) && *i != tmp)))
 		result[tmp++] = str[(*i)++];
 	result[tmp] = '\0';
 	return (result);

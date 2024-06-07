@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:36:34 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/06 18:18:22 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:17:07 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**expand_cmd_line(t_mini *mini, char **str)
 	i = 0;
 	while (str[i])
 	{
+		printf("before expansion, str[i] = _%s_\n", str[i]);
 		new = final_expansion(mini, str[i]);
 		printf("NEW_cmd_line : _%s_\n", new);
 		free(str[i]);

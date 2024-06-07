@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:59:22 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/06 17:37:21 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:52:55 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,35 +168,6 @@ int	update_the_situation(char c, int lead)
 //	printf("at the end of the fonction update_the_situation\nlead memory adress = %p\nlead = %i\n", lead, *lead);
 	return (lead);
 }
-
-/*char	*manage_no_quote(t_mini *mini, char *str, int *i)
-{
-	int		start;
-	char	*substring;
-	char	*str_joined;
-
-	substring = NULL;
-	str_joined = NULL;
-	start = i;
-	if (str[i] == DQUOTE || str[i] == QUOTE)
-		start = i + 1;
-	while (str[i] && lead == 0)
-	{
-		i++;
-		lead = update_the_situation(str[i], lead);
-		if (lead != 0)
-			break ;
-	}
-	if (start != i)
-	{
-		substring = ft_substr(str, start, i - start);
-		if (!substring)
-			print_error(mini, 2);
-		printf("0 substring = _%s_\n", substring);}
-		
-	}
-	return (str_joined);
-}*/
 
 int	possible_env(char *str, int i)
 {

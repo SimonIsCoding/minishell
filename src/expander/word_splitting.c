@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/31 10:32:31 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:54:50 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	count_lines_in_array(char **array)
 	int	j;
 
 	i = 0;
-	while (array[i]) 
+	while (array[i])
 	{
 		j = 0;
 		while (array[i][j])
@@ -28,7 +28,8 @@ static int	count_lines_in_array(char **array)
 	return (i);
 }
 
-char	**search_and_replace_variable_lead_zero(t_mini *mini, t_builtin *env_variable, char *expand_name)
+char	**search_and_replace_variable_lead_zero(t_mini *mini,
+				t_builtin *env_variable, char *expand_name)
 {
 	t_builtin	*tmp;
 	char		**word_splitted;
@@ -48,7 +49,8 @@ char	**search_and_replace_variable_lead_zero(t_mini *mini, t_builtin *env_variab
 	return (NULL);
 }
 
-int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i, char *result)
+int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i,
+				char *result)
 {
 	int		j;
 	int		k;
@@ -84,7 +86,7 @@ int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i, char *resu
 //this will expand the line when lead == 0.
 //It means that we have to split the word by one space if there is various
 //spaces in the same env
-char	*expand_the_line_lead_zero(t_mini *mini, char *str)//malloc ⚠️  
+char	*expand_the_line_lead_zero(t_mini *mini, char *str)//malloc ⚠️
 {
 	int		i;
 	int		j;
@@ -94,6 +96,7 @@ char	*expand_the_line_lead_zero(t_mini *mini, char *str)//malloc ⚠️
 	result = NULL;
 	j = calculate_len_for_malloc(mini, str);//you're allocating too much space for word splitting //you should create a function calculate_len_for_malloc_lead_zero
 	result = malloc(sizeof(char) * j + 1);
+	printf("lead = 0: the size of malloc j = %i\n", j);
 	if (!result)
 		print_error(mini, 2);
 	j = 0;
