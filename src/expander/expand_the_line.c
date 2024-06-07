@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:23:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/07 13:54:39 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:36:35 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	expand_dollar_variable(t_mini *mini, char *str, int *i, char *result)
 		env_key = catch_expansion_key(mini, str, i);
 		if (!env_key)
 			print_error(mini, 2);
-		env_value = search_and_replace_variable(mini->env, env_key);
+		env_value = search_and_replace_variable(mini->env, env_key);//leaks //to protect and to free
+		printf("2nd manage_dollar_variable env_value = _%s_\n", env_value);
 		while (env_value[k])
 			result[j++] = env_value[k++];
+		printf("result = _%s_\n", result);
 		free(env_key);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/07 13:54:50 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:16:35 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i,
 	if (variable_existence(mini, str, *i) == 1)
 	{
 		env_key = catch_expansion_key(mini, str, i);
+		printf("key = _%s_\n", env_key);
 		if (!env_key)
 			print_error(mini, 2);
 		env_value = search_and_replace_variable_lead_zero(mini, mini->env, env_key);
@@ -111,5 +112,6 @@ char	*expand_the_line_lead_zero(t_mini *mini, char *str)//malloc ⚠️
 			j += expand_dollar_variable_lead_zero(mini, str, &i, &result[j]);
 	}
 	result[j] = '\0';
+	printf("result = _%s_\n", result);
 	return (result);
 }
