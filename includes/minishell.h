@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/06 17:17:53 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:45:22 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ char			*clean_value(char *str);//YOU MIGHT HAVE A LEAK
 void			print_env_export(t_mini *mini, int flag);
 char			**delete_variable(char **old_env, char *str);
 char			**create_new_env(char **old_env, char **new_env, char *variable);
+int				detect_unset_error(t_cmd *cmd);
 
 t_builtin		*clear_one_node_env(t_builtin **lst);
 void			del_first_node_env(t_builtin **lst);

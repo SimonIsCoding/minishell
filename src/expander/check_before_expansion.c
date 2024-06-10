@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_before_expansion.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:59:22 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/07 18:07:50 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:56:09 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,35 @@ int	update_the_situation(char c, int lead)
 	return (lead);
 }
 
-//YOU MIGHT NOT USE IT => CHECK WITH A GREP
+/*char	*manage_no_quote(t_mini *mini, char *str, int *i)
+{
+	int		start;
+	char	*substring;
+	char	*str_joined;
+
+	substring = NULL;
+	str_joined = NULL;
+	start = i;
+	if (str[i] == DQUOTE || str[i] == QUOTE)
+		start = i + 1;
+	while (str[i] && lead == 0)
+	{
+		i++;
+		lead = update_the_situation(str[i], lead);
+		if (lead != 0)
+			break ;
+	}
+	if (start != i)
+	{
+		substring = ft_substr(str, start, i - start);
+		if (!substring)
+			print_error(mini, 2);
+		printf("0 substring = _%s_\n", substring);}
+		
+	}
+	return (str_joined);
+}*/
+
 int	possible_env(char *str, int i)
 {
 	if (str[i] == '$' && i > 0 /*i < (int)ft_strlen(str) - 1*/
@@ -312,8 +340,8 @@ char	*final_expansion(t_mini *mini, char *str)
 				substring = ft_substr(str, start, i - start);
 				if (!substring)
 					print_error(mini, 2);
-				if (invalid_characters(substring) == 1)//if there is $$ || $1 => we consider it as invalid
-					expansion_line = ft_strdup(substring);
+				if (invalid_characters(substring) == 1)//if there is $$ => we consider it as invalid
+					expansion_line = ft_strdup(substring); 
 				else//if the characters are valid <=> $letters_
 					expansion_line = expand_the_line(mini, substring);//we expand the line, or we show nothing if the env doesn't exist
 				if (!expansion_line)

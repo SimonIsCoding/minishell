@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmds.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:36:30 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/06 18:19:21 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/05/18 17:24:40 by asiercara        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	do_cmd(t_mini *mini, t_cmd *cmd)
 		free(cmd_path);
 		paths++;
 	}
-	return (free(tmp), not_found(cmd->str[0]));
+	free(tmp);
+	return (not_found(cmd->str[0]));
 }
 
 void	handle_single_cmd(t_mini *mini, t_cmd *cmd)

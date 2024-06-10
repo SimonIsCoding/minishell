@@ -3,60 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:36:34 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/07 13:17:07 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/05/26 18:20:25 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_expander(t_mini *mini, t_cmd *cmd)
+void    run_expander(t_mini *mini, t_cmd *cmd)
 {
-	t_cmd	*tmp;
+    t_cmd   *tmp;
 
-	tmp = cmd;
-	tmp->str = expand_cmd_line(mini, tmp->str);
-	while (tmp->redirections)
-	{
-		if (tmp->redirections->token != HDOC)
-			tmp->redirections->str = expand_str_line(mini,
-					tmp->redirections->str);
-		tmp->redirections = tmp->redirections->next;
-	}
+    tmp = cmd;
+    tmp->str = expand_cmd_line(mini, tmp->str); // contiene char** cmd line ==> [[cat] [hola.c]] [[echo] [$HELLO]]
+    while (tmp->redirections)
+    {
+        if (tmp->redirections->token != HDOC) // lo unico que no se expande es el eof de hdoc, todo lo demas son posibles archivos
+            tmp->redirections->str = expand_str_line(mini, tmp->redirections->str); // lexer->token && lexer->str(filename) char *
+        tmp->redirections = tmp->redirections->next;
+    }
 }
 
-// contains char** cmd line ==> [[cat] [hola.c]] [[echo] [$VARIABLE]]
 // expand cmd line. only cmd flags and args of the cmd
 char	**expand_cmd_line(t_mini *mini, char **str)
 {
-	char	*new;
-	int		i;
+    char    *new;
+    int     i;
 
-	new = NULL;
-	i = 0;
-	while (str[i])
-	{
-		printf("before expansion, str[i] = _%s_\n", str[i]);
-		new = final_expansion(mini, str[i]);
-		printf("NEW_cmd_line : _%s_\n", new);
-		free(str[i]);
-		str[i] = new;
-		i++;
-	}
-	return (str);
+    new = NULL;
+    i = 0;
+    while (str[i])
+    {
+        //if (is_dollar(str[i]) != 0 && str[i][is_dollar(str[i])] != '\0' && str[i][is_dollar(str[i]) - 2])
+        //{
+        new = final_expansion(mini, str[i]);
+        printf("NEW : %s\n", new);
+        free(str[i]);
+        str[i] = new;
+        // ft_strdup(new)
+        // free(new);
+        //}
+        i++;
+    }
+    return (str);
 }
 
-// expand str==> filename
-char	*expand_str_line(t_mini *mini, char *str)
-{
-	char	*new;
 
-	new = NULL;
-	new = final_expansion(mini, str);
-	printf("NEW_str_line : _%s_\n", new);
-	free(str);
-	str = new;
-	return (str);
+// expand str==> filename
+char    *expand_str_line(t_mini *mini, char *str)
+{
+    char    *new;
+
+    new = NULL;
+    //if (is_dollar(str) != 0 && str[is_dollar(str)] != '\0' && str[is_dollar(str) - 2])
+    //{
+    new = final_expansion(mini, str);
+    printf("NEW : %s\n", new);
+    free(str);
+    str = new;
+    //}
+    return (str);
 }

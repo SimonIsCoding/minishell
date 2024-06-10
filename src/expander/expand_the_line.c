@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_the_line.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:23:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/07 18:36:35 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:09:44 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ int	expand_dollar_variable(t_mini *mini, char *str, int *i, char *result)
 		env_key = catch_expansion_key(mini, str, i);
 		if (!env_key)
 			print_error(mini, 2);
-		env_value = search_and_replace_variable(mini->env, env_key);//leaks //to protect and to free
-		printf("2nd manage_dollar_variable env_value = _%s_\n", env_value);
+		env_value = search_and_replace_variable(mini->env, env_key);
 		while (env_value[k])
 			result[j++] = env_value[k++];
-		printf("result = _%s_\n", result);
 		free(env_key);
 	}
 	else
@@ -52,7 +50,7 @@ int	expand_dollar_variable(t_mini *mini, char *str, int *i, char *result)
 //this function will expand the whole line
 //at the beginning we have the str like the example at the line 16
 //and it returns the str like the line 17
-char	*expand_the_line(t_mini *mini, char *str)
+char	*expand_the_line(t_mini *mini, char *str)//malloc ⚠️  
 {
 	int		i;
 	int		j;
@@ -61,7 +59,6 @@ char	*expand_the_line(t_mini *mini, char *str)
 	i = 0;
 	result = NULL;
 	j = calculate_len_for_malloc(mini, str);
-	printf("lead = 2: the size of malloc j = %i\n", j);
 	result = malloc(sizeof(char) * j + 1);
 	if (!result)
 		print_error(mini, 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_len_for_malloc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:17:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/07 18:34:51 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:39:49 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ int	variable_existence(t_mini *mini, char *str, int i)
 	i++;
 	k = i;
 	j = 0;
-	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'
-			|| (ft_isdigit(str[i]) && i != k)))
+	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
 	{
 		j++;
 		i++;
@@ -47,8 +46,7 @@ int	variable_existence(t_mini *mini, char *str, int i)
 		print_error(mini, 2);
 	i = k;
 	j = 0;
-	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'
-			|| (ft_isdigit(str[i]) && i != k)))
+	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
 		env_key[j++] = str[i++];
 	tmp = mini->env;
 	while (tmp)
@@ -66,13 +64,12 @@ int	variable_existence(t_mini *mini, char *str, int i)
 void	forget_the_variable(char *str, int *i)
 {
 	(*i)++;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'
-			|| ft_isdigit(str[*i])))
+	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
 		(*i)++;
 }
 
 //this function returns the name of the key in our env list
-char	*catch_expansion_key(t_mini *mini, char *str, int *i)
+char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️  
 {
 	char	*result;
 	int		counter;
@@ -82,23 +79,19 @@ char	*catch_expansion_key(t_mini *mini, char *str, int *i)
 	counter = 0;
 	(*i)++;
 	tmp = *i;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'
-			|| (*i != tmp && ft_isdigit(str[*i]))))
+	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
 	{
 		counter++;
 		(*i)++;
 	}
-	printf("catch_expansioin_key counter = _%i_\n", counter);
 	result = malloc(sizeof(char) * counter + 1);
 	if (!result)
 		print_error(mini, 2);
 	*i = tmp;
 	tmp = 0;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'
-			|| (ft_isdigit(str[*i]) && *i != tmp)))
+	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
 		result[tmp++] = str[(*i)++];
 	result[tmp] = '\0';
-	printf("catch_expansioin_key result = _%s_\n", result);
 	return (result);
 }
 
@@ -113,8 +106,7 @@ void	manage_dollar_variable(t_mini *mini, char *str, int *i, int *counter)
 		env_key = catch_expansion_key(mini, str, i);
 		if (!env_key)
 			print_error(mini, 2);
-		env_value = search_and_replace_variable(mini->env, env_key);//LEAKS // to protect and to free
-		printf("1st: manage_dollar_variable env_value = _%s_\n", env_value);
+		env_value = search_and_replace_variable(mini->env, env_key);
 		(*counter) += ft_strlen(env_value);
 		free(env_key);
 	}
