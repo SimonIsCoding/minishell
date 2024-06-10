@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_before_expansion.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:59:22 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/30 16:56:09 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:01:15 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,14 +198,18 @@ int	update_the_situation(char c, int lead)
 	return (str_joined);
 }*/
 
-int	possible_env(char *str, int i)
+/*int	possible_env(char *str, int i)
 {
-	if (str[i] == '$' && i > 0 /*i < (int)ft_strlen(str) - 1*/
+	if (str[i] == '$' && i > 0
 		&& (ft_isalpha(str[i - 1]) == 1 || str[i - 1] == '_'))
 		return (1);
 	return (0);
-}
+}*/
 
+//for example if our string is : $$
+//we don't want to expand it because this is not an env
+//we consider it as invalid character and we return 1
+//otherwise we consider it as valid and we return 0
 int	invalid_characters(const char *str)
 {
 	int	i;
@@ -217,36 +221,6 @@ int	invalid_characters(const char *str)
 		return (1);
 	return (0);
 }
-
-/*void	manage_simple_quote_situation(t_mini *mini, char *str, int *i, int *lead)
-{
-	int		start;
-	char	*substring;
-	char	*tmp;
-	char	*final_line;
-
-	start = *i + 1;
-	while (str[*i] && *lead == 1)
-	{
-		(*i)++;
-		*lead = update_the_situation(str[*i], *lead);
-		if (*lead != 1)
-			break ;
-	}
-	if (start != *i)
-	{
-		substring = ft_substr(str, start, *i - start);
-		if (!substring)
-			print_error(mini, 2);
-		if (final_line)
-			free(final_line);
-		final_line = ft_strjoin(tmp, substring);
-		if (!final_line)
-			print_error(mini, 2);
-		tmp = ft_strdup(final_line);
-		free(substring);	
-	}
-}*/
 
 char	*final_expansion(t_mini *mini, char *str)
 {
@@ -281,12 +255,17 @@ char	*final_expansion(t_mini *mini, char *str)
 			if (start != i)
 			{
 				substring = ft_substr(str, start, i - start);
+				printf("substring : _%s_\n", substring);
 				if (!substring)
 					print_error(mini, 2);
 				if (invalid_characters(substring) == 1)
-					expansion_line = ft_strdup(substring); 
+				{
+					expansion_line = ft_strdup(substring);
+					printf("entered in invalid_characters for _%s_\n", substring);
+				}
 				else
 					expansion_line = expand_the_line_lead_zero(mini, substring);
+				printf("value expanded = _%s_\n", expansion_line);
 				if (!expansion_line)
 					print_error(mini, 2);
 				free(substring);
@@ -357,5 +336,6 @@ char	*final_expansion(t_mini *mini, char *str)
 			}
 		}
 	}
+	printf("final_line = _%s_\n", final_line);
 	return (free(tmp), final_line);
 }

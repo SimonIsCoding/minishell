@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_len_for_malloc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:17:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/30 16:39:49 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:36:33 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 //we have to forget $TEST
 
 //this functions checks only for 1 variable
-//this function checks if the variable that we sent is in our env
-//it returns 1 if the variable is in the env
+//this function checks if the variable that we sent is in our env list
+//it returns 1 if the variable is in the env list
 //0 if it doesn't exists
 //for example if we have the command line: "$test"
 //$test is not in env => it returns 0
@@ -33,6 +33,7 @@ int	variable_existence(t_mini *mini, char *str, int i)
 	int			j;
 	char		*env_key;
 
+	printf("in variable_existence with i = %i (%p) && str = _%s_\n", i, &i, str);
 	i++;
 	k = i;
 	j = 0;
@@ -48,14 +49,38 @@ int	variable_existence(t_mini *mini, char *str, int i)
 	j = 0;
 	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
 		env_key[j++] = str[i++];
+	env_key[j] = '\0';
+	printf("env_key in variable_existence = _%s_\n", env_key);
 	tmp = mini->env;
 	while (tmp)
 	{
 		if (ft_strcmp_simple(env_key, tmp->key) == 0)
+		{
+			printf("in variable_existence => returning 1\n");
 			return (free(env_key), 1);
+		}
 		tmp = tmp->next;
 	}
+	printf("in variable_existence => returning 0\n");
 	return (free(env_key), 0);
+}
+
+//the goal of this function is to go through our list of environment variable
+//if the parameter expand_name has the same name as one environment variable
+//we return his content
+//otherwise we return NULL
+char	*search_and_replace_variable(t_builtin *env_variable, char *expand_name)
+{
+	t_builtin	*tmp;
+
+	tmp = env_variable;
+	while (tmp)
+	{
+		if (ft_strcmp_simple(tmp->key, expand_name) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 //in the example of the l.16, this function forgets $TEST.
@@ -69,12 +94,17 @@ void	forget_the_variable(char *str, int *i)
 }
 
 //this function returns the name of the key in our env list
+//this function will catch the name of the variable in our str (=command line)
+//starting from i, which is the $, until the end of his name
+//for example					: echo $USER.
+//this function below returns   : USER
 char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️  
 {
 	char	*result;
 	int		counter;
 	int		tmp;
 
+	printf("entered in catch_expansion_key\nstr = _%s_\n", str);
 	result = NULL;
 	counter = 0;
 	(*i)++;

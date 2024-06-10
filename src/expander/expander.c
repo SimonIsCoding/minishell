@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:36:34 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/26 18:20:25 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:26:24 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**expand_cmd_line(t_mini *mini, char **str)
         //if (is_dollar(str[i]) != 0 && str[i][is_dollar(str[i])] != '\0' && str[i][is_dollar(str[i]) - 2])
         //{
         new = final_expansion(mini, str[i]);
-        printf("NEW : %s\n", new);
+        printf("NEW cmd_line: %s\n", new);
         free(str[i]);
         str[i] = new;
         // ft_strdup(new)
