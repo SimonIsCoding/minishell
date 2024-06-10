@@ -6,27 +6,11 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/10 17:58:47 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:54:55 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	count_lines_in_array(char **array)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (array[i])
-	{
-		j = 0;
-		while (array[i][j])
-			j++;
-		i++;
-	}
-	return (i);
-}
 
 char	**search_and_replace_variable_lead_zero(t_mini *mini,
 				t_builtin *env_variable, char *expand_name)
@@ -49,17 +33,48 @@ char	**search_and_replace_variable_lead_zero(t_mini *mini,
 	return (NULL);
 }
 
+static char	**free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	return (NULL);
+}
+
+//this function splits every word n our array by only one space
+//if this is the last word, we won't add a space
+static void	word_splitting(char **env_value, char *result, int *j)
+{
+	int	k;
+	int	l;
+
+	k = 0;
+	while (env_value[k])
+	{
+		l = 0;
+		while (env_value[k][l])
+			result[(*j)++] = env_value[k][l++];
+		if (k + 1 < count_lines_in_array(env_value))
+			result[(*j)++] = ' ';
+		k++;
+	}
+}
+
 int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i,
 					char *result)
 {
 	int		j;
-	int		k;
-	int		l;
 	char	*env_key;
 	char	**env_value;
 
 	j = 0;
-	k = 0;
 	if (variable_existence(mini, str, *i) == 1)
 	{
 		env_key = catch_expansion_key(mini, str, i);
@@ -67,16 +82,9 @@ int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i,
 			print_error(mini, 2);
 		env_value = search_and_replace_variable_lead_zero(mini, mini->env,
 				env_key);
-		while (env_value[k])
-		{
-			l = 0;
-			while (env_value[k][l])
-				result[j++] = env_value[k][l++];
-			if (k + 1 < count_lines_in_array(env_value))
-				result[j++] = ' ';
-			k++;
-		}
+		word_splitting(env_value, result, &j);
 		free(env_key);
+		free_array(env_value);
 	}
 	else
 		forget_the_variable(str, i);
@@ -87,6 +95,7 @@ int	expand_dollar_variable_lead_zero(t_mini *mini, char *str, int *i,
 //this will expand the line when lead == 0.
 //It means that we have to split the word by one space if there is various
 //spaces in the same env
+//watch out you allocate too much space for result.
 char	*expand_the_line_lead_zero(t_mini *mini, char *str)
 {
 	int		i;

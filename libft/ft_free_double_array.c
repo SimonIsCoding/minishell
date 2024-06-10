@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_double_array.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:53:12 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/01/15 13:21:50 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:49:19 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,19 @@ void    ft_free_double_array(char **str)
         free(str[i]);
     free(str);
 }
+
+//si falla mira eso con Linux
+/*char	**free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	return (NULL);
+}*/
