@@ -6,7 +6,7 @@
 #    By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 11:57:11 by simarcha          #+#    #+#              #
-#    Updated: 2024/06/10 12:07:23 by simarcha         ###   ########.fr        #
+#    Updated: 2024/06/10 15:47:28 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRCS_FILES          = main.c \
                       utils/mini_live.c \
                       utils/verify_quotes.c \
                       expander/expander.c \
+                      expander/variable_existence.c \
                       expander/calculate_len_for_malloc.c \
                       expander/expand_the_line.c \
                       expander/check_before_expansion.c \

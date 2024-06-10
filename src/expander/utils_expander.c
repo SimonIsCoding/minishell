@@ -3,52 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expander.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:36:34 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/20 11:54:14 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:01:29 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*char    *is_dollar_sign(char *str)
+int	is_dollar(char *str)
 {
-    while (*str)
-    {
-        if (*str == '$')
-            return (str + 1);
-        str++;
-    }
-    return (NULL);
-}*/
+	int	i;
 
-int is_dollar(char *str)
-{
-    int i;
-
-    i = 0;
-    while (*str)
-    {
-        if (*str == '$')
-            return (i + 1);
-        str++;
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (*str)
+	{
+		if (*str == '$')
+			return (i + 1);
+		str++;
+		i++;
+	}
+	return (0);
 }
 
-int is_equal(char *str)
+int	is_equal(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (*str)
-    {
-        if (*str == '=')
-            return (i + 1);
-        str++;
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (*str)
+	{
+		if (*str == '=')
+			return (i + 1);
+		str++;
+		i++;
+	}
+	return (0);
 }
