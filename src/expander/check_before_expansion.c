@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:59:22 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/10 13:01:15 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:31:16 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*quit_single_quotes(t_mini *mini, char *str)
 		{
 			//if (variable_existence(mini, str, i) == 1)
 		}
-		printf("result = %s\n", result);
+//		printf("result = %s\n", result);
 		i++;
 	}
 	return (free(aux), result);
@@ -255,17 +255,17 @@ char	*final_expansion(t_mini *mini, char *str)
 			if (start != i)
 			{
 				substring = ft_substr(str, start, i - start);
-				printf("substring : _%s_\n", substring);
+//				printf("substring : _%s_\n", substring);
 				if (!substring)
 					print_error(mini, 2);
 				if (invalid_characters(substring) == 1)
-				{
+//				{
 					expansion_line = ft_strdup(substring);
-					printf("entered in invalid_characters for _%s_\n", substring);
-				}
+//					printf("entered in invalid_characters for _%s_\n", substring);
+//				}
 				else
 					expansion_line = expand_the_line_lead_zero(mini, substring);
-				printf("value expanded = _%s_\n", expansion_line);
+//				printf("value expanded = _%s_\n", expansion_line);
 				if (!expansion_line)
 					print_error(mini, 2);
 				free(substring);
@@ -336,6 +336,6 @@ char	*final_expansion(t_mini *mini, char *str)
 			}
 		}
 	}
-	printf("final_line = _%s_\n", final_line);
+//	printf("final_line = _%s_\n", final_line);
 	return (free(tmp), final_line);
 }

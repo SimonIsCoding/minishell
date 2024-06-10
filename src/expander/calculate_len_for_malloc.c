@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:17:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/10 13:36:33 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:00:23 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	variable_existence(t_mini *mini, char *str, int i)
 	int			j;
 	char		*env_key;
 
-	printf("in variable_existence with i = %i (%p) && str = _%s_\n", i, &i, str);
+//	printf("in variable_existence with i = %i (%p) && str = _%s_\n", i, &i, str);
 	i++;
 	k = i;
 	j = 0;
-	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+	while (str[i] && ((ft_isalpha(str[i]) || str[i] == '_') || (ft_isdigit(str[i]) && i != k)))
 	{
 		j++;
 		i++;
@@ -47,21 +47,21 @@ int	variable_existence(t_mini *mini, char *str, int i)
 		print_error(mini, 2);
 	i = k;
 	j = 0;
-	while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+	while (str[i] && ((ft_isalpha(str[i]) || str[i] == '_') || (ft_isdigit(str[i]) && i != k)))
 		env_key[j++] = str[i++];
 	env_key[j] = '\0';
-	printf("env_key in variable_existence = _%s_\n", env_key);
+//	printf("env_key in variable_existence = _%s_\n", env_key);
 	tmp = mini->env;
 	while (tmp)
 	{
 		if (ft_strcmp_simple(env_key, tmp->key) == 0)
-		{
-			printf("in variable_existence => returning 1\n");
+//		{
+//			printf("in variable_existence => returning 1\n");
 			return (free(env_key), 1);
-		}
+//		}
 		tmp = tmp->next;
 	}
-	printf("in variable_existence => returning 0\n");
+//	printf("in variable_existence => returning 0\n");
 	return (free(env_key), 0);
 }
 
@@ -88,8 +88,11 @@ char	*search_and_replace_variable(t_builtin *env_variable, char *expand_name)
 //any memory space. And our iterator is just counting until the end of the word
 void	forget_the_variable(char *str, int *i)
 {
+	int	tmp;
+	
 	(*i)++;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
+	tmp = *i;
+	while (str[*i] && ((ft_isalpha(str[*i]) || str[*i] == '_')  || (ft_isdigit(str[*i]) && *i != tmp)))
 		(*i)++;
 }
 
@@ -104,12 +107,12 @@ char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️
 	int		counter;
 	int		tmp;
 
-	printf("entered in catch_expansion_key\nstr = _%s_\n", str);
+//	printf("entered in catch_expansion_key\nstr = _%s_\n", str);
 	result = NULL;
 	counter = 0;
 	(*i)++;
 	tmp = *i;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
+	while (str[*i] && ((ft_isalpha(str[*i]) || str[*i] == '_') || (ft_isdigit(str[*i]) && *i != tmp)))
 	{
 		counter++;
 		(*i)++;
@@ -119,7 +122,7 @@ char	*catch_expansion_key(t_mini *mini, char *str, int *i)//malloc ⚠️
 		print_error(mini, 2);
 	*i = tmp;
 	tmp = 0;
-	while (str[*i] && (ft_isalpha(str[*i]) || str[*i] == '_'))
+	while (str[*i] && ((ft_isalpha(str[*i]) || str[*i] == '_') || (ft_isdigit(str[*i]) && *i != tmp)))
 		result[tmp++] = str[(*i)++];
 	result[tmp] = '\0';
 	return (result);
