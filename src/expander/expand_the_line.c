@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_the_line.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:23:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/30 17:09:44 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:00:18 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 // if we have: "this is a $TEST for $HOME $USER \$PAGE"
 // the result: this is a  for /Users/login login $PAGE"
 
-//we have the function to change the $HOME with the expanded value
 //we have the function to forget $TEST
+//we have the function to change the $HOME with the expanded value
 //we have the function to calculate_right_malloc_size 
 //we have the function to know the env variable_existence
 
