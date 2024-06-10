@@ -6,20 +6,20 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:53:12 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/10 18:49:19 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:12:02 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    ft_free_double_array(char **str)
+void	ft_free_double_array(char **str)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (str[++i])
-        free(str[i]);
-    free(str);
+	i = -1;
+	while (str[++i])
+		free(str[i]);
+	free(str);
 }
 
 //si falla mira eso con Linux

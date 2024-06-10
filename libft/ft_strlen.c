@@ -6,7 +6,7 @@
 /*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 12:00:12 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/01/09 12:00:16 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:06:02 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	if (str == NULL)
-	return (0);
+		return (0);
 	i = 0;
 	while (str[i] != '\0')
 		i++;

@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/10 18:57:22 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:02:30 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,8 +274,8 @@ char			*expand_the_line(t_mini *mini, char *str);
 char			*expand_the_line_lead_zero(t_mini *mini, char *str);
 int				update_the_situation(char c, int lead);
 char			*final_expansion(t_mini *mini, char *str);
-//int				possible_env(char *str, int i);
 
+//int				possible_env(char *str, int i);
 //int				calculate_malloc_size(char *str);
 //void			check_the_situation(char *str);
 //int				about_quotes(t_mini *mini, char *str);
