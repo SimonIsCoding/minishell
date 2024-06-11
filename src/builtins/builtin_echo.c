@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:29:34 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 17:36:22 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:53:27 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,28 @@ static int	builtin_echo_flag_n(t_mini *mini, t_cmd *command, int i, int wc)
 	return (1);
 }
 
+int	builtin_echo_without_flag(t_mini *mini, t_cmd *command, int i, int wc)
+{
+	char	*content;
+
+	while (command->str[i])
+	{
+		content = final_expansion(mini, command->str[i]);
+		if (!content)
+			print_error(mini, 2);
+		if (write(1, content, ft_strlen(content)) == -1)
+			print_error(mini, 0);
+		if (i < wc - 1)
+			if (write(1, " ", 1) == -1)
+				return (print_error(mini, 0), 0);
+		i++;
+		free(content);
+	}
+	if (write(1, "\n", 1) == -1)
+		return (print_error(mini, 0), 0);
+	return (1);
+}
+
 //in this function, the argument *command is type: mini->cmd
 //(we could only work with 1 argument)
 //for example: echo hello     world     $PWD
@@ -83,7 +105,6 @@ int	builtin_echo(t_mini *mini, t_cmd *command)
 {
 	int		wordcount;
 	int		i;
-	char	*content;
 
 	wordcount = lines_counter(command->str);
 	i = 1;
@@ -91,22 +112,5 @@ int	builtin_echo(t_mini *mini, t_cmd *command)
 			|| check_flag(command->str[i]) == 1))
 		return (builtin_echo_flag_n(mini, command, 2, wordcount));
 	else
-	{
-		while (command->str[i])
-		{
-			content = final_expansion(mini, command->str[i]);
-			if (!content)
-				print_error(mini, 2);
-			if (write(1, content, ft_strlen(content)) == -1)
-				print_error(mini, 0);
-			if (i < wordcount - 1)
-				if (write(1, " ", 1) == -1)
-					return (print_error(mini, 0), 0);
-			i++;
-			free(content);
-		}
-		if (write(1, "\n", 1) == -1)
-			return (print_error(mini, 0), 0);
-	}
-	return (1);
+		return (builtin_echo_without_flag(mini, command, i, wordcount));
 }
