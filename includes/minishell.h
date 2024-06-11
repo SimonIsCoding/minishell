@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 10:53:06 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:49:25 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ void			delone_node_env(int num_del, t_builtin **lst);
 // Expander
 
 void			run_expander(t_mini *mini, t_cmd *cmd);
-char   			*expand_str_line(t_mini *mini, char *str);
+char			*expand_str_line(t_mini *mini, char *str);
 char			**expand_cmd_line(t_mini *mini, char **str);
 char			*search_and_replace_variable(t_builtin *env_variable, char *expand_name);
 char			*catch_expansion_key(t_mini *mini, char *str, int *i);
@@ -273,18 +273,19 @@ int				calculate_len_for_malloc(t_mini *mini, char *str);
 char			*expand_the_line(t_mini *mini, char *str);
 char			*expand_the_line_lead_zero(t_mini *mini, char *str);
 int				update_the_situation(char c, int lead);
+int				invalid_characters(const char *str);
 char			*final_expansion(t_mini *mini, char *str);
 
-//int				possible_env(char *str, int i);
-//int				calculate_malloc_size(char *str);
-//void			check_the_situation(char *str);
-//int				about_quotes(t_mini *mini, char *str);
-//char			*quit_single_quotes(t_mini *mini, char *str);
-//void			send_line(t_mini *mini, char *str);
-//char			*expanded_string(t_mini *mini, char *str);
-//int				count_env_variable(t_mini *mini, char *line);
-//char			*search_and_replace_variable(t_mini *mini, t_builtin *env_variable, char *expand_name);
-//char			*get_expansion_key(t_mini *mini, char *str);
+// int				possible_env(char *str, int i);
+// int				calculate_malloc_size(char *str);
+// void			check_the_situation(char *str);
+// int				about_quotes(t_mini *mini, char *str);
+// char			*quit_single_quotes(t_mini *mini, char *str);
+// void			send_line(t_mini *mini, char *str);
+// char			*expanded_string(t_mini *mini, char *str);
+// int				count_env_variable(t_mini *mini, char *line);
+// char			*search_and_replace_variable(t_mini *mini, t_builtin *env_variable, char *expand_name);
+// char			*get_expansion_key(t_mini *mini, char *str);
 
 // Utils expander
 

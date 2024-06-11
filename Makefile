@@ -6,7 +6,7 @@
 #    By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 11:57:11 by simarcha          #+#    #+#              #
-#    Updated: 2024/06/10 15:47:28 by simarcha         ###   ########.fr        #
+#    Updated: 2024/06/11 15:52:01 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,8 @@ SRCS_FILES          = main.c \
                       expander/check_before_expansion.c \
                       expander/word_splitting.c \
                       expander/utils_expander.c \
+                      expander/final_expansion_utils.c \
+                      expander/final_expansion.c \
                       errors/parser_errors.c \
                       builtins/builtin_echo.c \
                       builtins/builtin_pwd.c \
