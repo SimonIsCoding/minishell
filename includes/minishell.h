@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 15:49:25 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:31:33 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ int				variable_existence(t_mini *mini, char *line, int i);
 void			forget_the_variable(char *str, int *i);
 int				count_lines_in_array(char **array);
 int				calculate_len_for_malloc(t_mini *mini, char *str);
+int				expand_error_code(t_mini *mini, int *i, char *result);
 char			*expand_the_line(t_mini *mini, char *str);
 char			*expand_the_line_lead_zero(t_mini *mini, char *str);
 int				update_the_situation(char c, int lead);

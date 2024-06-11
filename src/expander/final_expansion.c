@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:46:27 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 15:59:44 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:56:27 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*final_expansion(t_mini *mini, char *str)
 			}
 			if (start != i)
 			{
+				substring = ft_substr(str, start, i - start);
+				if (!substring)
 						print_error(mini, 2);
 				if (invalid_characters(substring) == 1)
 					expansion_line = ft_strdup(substring);

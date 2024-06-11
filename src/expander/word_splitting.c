@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/10 18:54:55 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:37:43 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ char	*expand_the_line_lead_zero(t_mini *mini, char *str)
 	char	*result;
 
 	i = 0;
-	result = NULL;
 	j = calculate_len_for_malloc(mini, str);
 	result = malloc(sizeof(char) * j + 1);
 	if (!result)
@@ -116,6 +115,9 @@ char	*expand_the_line_lead_zero(t_mini *mini, char *str)
 		if ((i > 0 && str[i] == '$' && str[i - 1] == BACKSLASH)
 			|| (str[i] != '$'))
 			result[j++] = str[i++];
+		else if (i < (int)ft_strlen(str) - 1 && str[i] == '$'
+			&& str[i + 1] == '?')
+			j += expand_error_code(mini, &i, &result[j]);
 		else
 			j += expand_dollar_variable_lead_zero(mini, str, &i, &result[j]);
 	}

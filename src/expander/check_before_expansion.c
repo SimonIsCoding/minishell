@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:59:22 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 13:42:11 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:24:25 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	invalid_characters(const char *str)
 
 	i = 0;
 	i++;
+	if (str[i] == '?')
+		return (0);
 	if (!str[i] || !(ft_isalpha(str[i]) == 1 || str[i] == '_'))
 		return (1);
 	return (0);

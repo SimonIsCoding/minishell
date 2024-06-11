@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_live.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asiercara <marvin@42.fr>                   +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:52:42 by asiercara         #+#    #+#             */
-/*   Updated: 2024/06/10 10:53:59 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:21:59 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_mini(t_mini *mini, char **env)
 	g_global_var.inside_cmd = 0;
 	g_global_var.inside_hdoc = 0;
 	g_global_var.outside_hdoc = 0;
+	//mini->error_code = 0;
 	init_signals();
 	get_pwd(mini);
 	//cd exit success get current directory pwd = getcurrent directory
