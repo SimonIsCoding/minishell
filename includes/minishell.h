@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 17:31:33 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:52:16 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,8 @@ char			**delete_variable(char **old_env, char *str);
 char			**create_new_env(char **old_env, char **new_env, char *variable);
 //int				detect_unset_error(t_cmd *cmd);
 
+int				lines_counter(char **array);
+
 t_builtin		*clear_one_node_env(t_builtin **lst);
 void			del_first_node_env(t_builtin **lst);
 void			delone_node_env(int num_del, t_builtin **lst);
@@ -268,7 +270,6 @@ char			*search_and_replace_variable(t_builtin *env_variable, char *expand_name);
 char			*catch_expansion_key(t_mini *mini, char *str, int *i);
 int				variable_existence(t_mini *mini, char *line, int i);
 void			forget_the_variable(char *str, int *i);
-int				count_lines_in_array(char **array);
 int				calculate_len_for_malloc(t_mini *mini, char *str);
 int				expand_error_code(t_mini *mini, int *i, char *result);
 char			*expand_the_line(t_mini *mini, char *str);

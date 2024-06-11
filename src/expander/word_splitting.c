@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 17:37:43 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:51:53 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	word_splitting(char **env_value, char *result, int *j)
 		l = 0;
 		while (env_value[k][l])
 			result[(*j)++] = env_value[k][l++];
-		if (k + 1 < count_lines_in_array(env_value))
+		if (k + 1 < lines_counter(env_value))
 			result[(*j)++] = ' ';
 		k++;
 	}

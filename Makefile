@@ -6,7 +6,7 @@
 #    By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 11:57:11 by simarcha          #+#    #+#              #
-#    Updated: 2024/06/11 15:52:01 by simarcha         ###   ########.fr        #
+#    Updated: 2024/06/11 17:49:27 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,6 @@ SRCS_FILES          = main.c \
                       builtins/builtin_unset.c \
                       builtins/builtin_cd.c \
                       utils/signals.c
-#                      expander/manage_quotes.c
 SRCS                = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJ_SRCS            = $(SRCS:.c=.o)
 
