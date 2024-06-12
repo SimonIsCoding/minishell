@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:36:30 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 17:00:13 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:19:37 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	handle_single_cmd(t_mini *mini, t_cmd *cmd)
 	int	status;
 
 	// echo $? ==> echo -$?- -> global error
-	run_expander(mini, cmd);
+	run_expander(mini, cmd);//MALLOC => to protect and to free for cmd
 	// echo "global error"
 	if (cmd->builtin != NOT_HAVE)
 	{

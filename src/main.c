@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:37:48 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/06 13:00:19 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:07:00 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **env)
 	//mini.original_env = env;
 	mini.env = create_builtin_lst(&mini, lst_env, env);
 	concat_lst_env(&mini);
+//	mini.error_code = 0;
 	init_mini(&mini, env);
 	mini_live(&mini);
 	return (0);

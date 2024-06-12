@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:47:43 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/18 17:22:35 by asiercara        ###   ########.fr       */
+/*   Updated: 2024/06/12 12:07:05 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ int		pre_executor(t_mini *mini)
 		handle_single_cmd(mini, mini->cmd);
 	else
 		executor(mini);
+	printf("pre_executor g_global_var.error_code = %i\n", g_global_var.error_code);
+	//printf("mini->error = %i\n", mini->error_code);
+	g_global_var.error_code = mini->error_code;
 	g_global_var.inside_cmd = 0;
 	return (0);
 }

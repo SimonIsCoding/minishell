@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:46:27 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 16:56:27 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:16:28 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 char	*final_expansion(t_mini *mini, char *str)
 {
 	t_expansor	*expansion;
+	char		*result;
 
 	expansion = malloc(sizeof(t_expansor));
 	if (!expansion)
@@ -35,7 +36,9 @@ char	*final_expansion(t_mini *mini, char *str)
 		else if (expansion->lead == 2)
 			lead_is_two(mini, str, expansion);
 	}
-	return (free(expansion->tmp), expansion->final_line);
+	result = ft_strdup(expansion->final_line);
+	return (free(expansion->tmp), free(expansion->final_line), free(expansion),
+		result);
 }
 
 //At the beginning it was this function, but it didn't fulfilled the Norminette

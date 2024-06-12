@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:23:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 17:37:34 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:31:37 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	expand_error_code(t_mini *mini, int *i, char *result)
 	j = 0;
 	k = 0;
 	(*i) = (*i) + 2;
-	number = ft_itoa(mini->error_code);
+	number = ft_itoa(g_global_var.error_code);
+	printf("number error_code %i\n", g_global_var.error_code);
 	if (!number)
 		print_error(mini, 2);
 	while (number[j])

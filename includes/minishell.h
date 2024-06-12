@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 17:52:16 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:25:20 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ extern t_global_var		g_global_var;
 
 typedef struct s_mini
 {
-	char					*line;//
+	char					*line;
 	char					**original_env;
 	char					*pwd;
 	char					*old_pwd;
