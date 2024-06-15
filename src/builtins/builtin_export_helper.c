@@ -3,18 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_helper.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:58:10 by simarcha          #+#    #+#             */
-/*   Updated: 2024/05/15 14:15:13 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:42:15 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env_export(t_mini *mini, int flag)//t_builtin *lst_env, )
+static void	print_env_flag(t_env_lst *tmp)
 {
-	t_builtin	*tmp;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, "_", 1) != 0)
+		{
+			if (tmp->value == NULL)
+				printf("declare -x %s\n", tmp->key);
+			else
+				printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	print_env_export(t_mini *mini, int flag)
+{
+	t_env_lst	*tmp;
 
 	tmp = mini->env;
 	if (flag == 0)
@@ -27,27 +42,14 @@ void	print_env_export(t_mini *mini, int flag)//t_builtin *lst_env, )
 		}
 	}
 	else if (flag == 1)
-	{
-		while (tmp)
-		{
-			if (ft_strncmp(tmp->key, "_", 1) != 0)
-			{
-				if (tmp->value == NULL)
-					printf("declare -x %s\n", tmp->key);
-				else
-					printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-			}
-			tmp = tmp->next;
-		}
-	}
-//	ft_lstclear_builtin(&lst_export);//this line will be written at the very last step of the pgrm. Just before return (0) of the main
+		print_env_flag(tmp);
 }
 
 //I HAVE TO REMOVE THE NODE->KEY = _ BECAUSE IT ISN'T IN EXPORT
-void	remove_special_node(t_builtin **head)
+void	remove_special_node(t_env_lst **head)
 {
-	t_builtin	*current;
-	t_builtin	*previous;
+	t_env_lst	*current;
+	t_env_lst	*previous;
 
 	previous = NULL;
 	current = *head;
@@ -73,11 +75,11 @@ void	remove_special_node(t_builtin **head)
 
 //there is a second argument whereas I only need one. I had norminette issues.
 //This second argument has to be set as NULL
-t_builtin	*sort_ascii(t_builtin *lst_export, t_builtin *sorted)
+/*t_env_lst	*sort_ascii(t_env_lst *lst_export, t_env_lst *sorted)
 {
-	t_builtin	*current;
-	t_builtin	*the_next;
-	t_builtin	*tmp;
+	t_env_lst	*current;
+	t_env_lst	*the_next;
+	t_env_lst	*tmp;
 
 	current = lst_export;
 	while (current)
@@ -99,7 +101,7 @@ t_builtin	*sort_ascii(t_builtin *lst_export, t_builtin *sorted)
 		current = the_next;
 	}
 	return (sorted);
-}
+}*/
 
 //we want to check if everything is well written before the '='.
 //It means if there is a key name to the str.
@@ -108,35 +110,34 @@ t_builtin	*sort_ascii(t_builtin *lst_export, t_builtin *sorted)
 int	check_variable(char *str)
 {
 	char	*tmp;
-	int	i;
-	
+	int		i;
+
 	i = 0;
 	tmp = str;
 	if (ft_strchr(tmp, '=') != NULL)
 	{
-		while (str[i] != '=')// || str[i])
+		while (str[i] != '=')
 		{
 			if (i == 0 && str[i] == 34)
 				i++;
-			else if (i == 0 && str[i] != '_' && !ft_isalpha(str[i]))//si ce n'est pas un _ ou une lettre de l'alphabet
-				return (perror("export: not a valid identifier"), 0);//alors cest mal ecrit
+			else if (i == 0 && str[i] != '_' && !ft_isalpha(str[i]))
+				return (perror("export: not a valid identifier"), 0);
 			i++;
 		}
 	}
 	else
 		i = 1;
 	if (i > 0 && str[i] == '=' && str[i - 1] == '+')
-		return (2);//in the case for joining the values
+		return (2);
 	if (i > 0)
-		return (1);//in the case for adding  new variable in the env
+		return (1);
 	return (0);
 }
 
-char	*clean_value(char *str)//YOU MIGHT HAVE A LEAK HERE BECAUSE YOU MALLOC WITHOUT FREE THE PREVIOUS CONTENT
+char	*clean_value(t_mini *mini, char *str)
 {
 	int		i;
-	int		j;
-	int		len;
+	char	*result;
 
 	if (ft_strchr(str, '=') == NULL)
 		return (NULL);
@@ -146,12 +147,18 @@ char	*clean_value(char *str)//YOU MIGHT HAVE A LEAK HERE BECAUSE YOU MALLOC WITH
 	i++;
 	if (str[i] == '\0')
 		return (ft_strdup(""));
-	while (str[i] == 34 || str[i] == 39)
-		i++;
-	j = (int)ft_strlen(str) - 1;
-	while (str[j] == 34 || str[j] == 39)
-		j--;
-	j++;
-	len = j - i;
-	return (ft_substr(str, i, len));
+	if (str[i] == QUOTE || str[i] == DQUOTE)
+	{
+		result = value_with_quotes(mini, &str[i]);
+		if (!result)
+			print_error(mini, 2);
+		return (result);
+	}
+	else
+	{
+		result = ft_strdup(&str[i]);
+		if (!result)
+			print_error(mini, 2);
+		return (result);
+	}
 }

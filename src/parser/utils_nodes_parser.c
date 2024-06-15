@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_nodes.c                                      :+:      :+:    :+:   */
+/*   utils_nodes_parser.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 10:30:58 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/16 15:14:27 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:27:51 by asiercara        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd *new_cmd(char **str, int num_redirections, t_lexer *redirections)
+t_cmd	*new_cmd(char **str, int num_redirections, t_lexer *redirections)
 {
-	t_cmd	*new;
+	t_cmd	*new_cmd_node;
 
-	new = (t_cmd *)malloc(sizeof(t_cmd));
-   	if (!new)
+	new_cmd_node = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!new_cmd_node)
 		return (0);
-	new->str = str;
-   	new->builtin = prepare_builtin(str[0]); // find_builtin(str[0]) works well
-   	new->hdoc_filename = NULL;
-	new->num_redirections = num_redirections;
-   	new->redirections = redirections;
-	new->next = NULL;
-	new->previous = NULL;
-	return (new);
+	new_cmd_node->str = str;
+	new_cmd_node->builtin = prepare_builtin(str[0]);
+	new_cmd_node->hdoc_filename = NULL;
+	new_cmd_node->num_redirections = num_redirections;
+	new_cmd_node->redirections = redirections;
+	new_cmd_node->next = NULL;
+	new_cmd_node->previous = NULL;
+	return (new_cmd_node);
 }
 
 void	ft_node_add_back_parser(t_cmd **lst, t_cmd *node)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	tmp = *lst;
 	if (*lst == NULL)
@@ -45,14 +45,14 @@ void	ft_node_add_back_parser(t_cmd **lst, t_cmd *node)
 	node->previous = tmp;
 }
 
-int		lst_size_cmd(t_mini *mini)
+int	lst_size_cmd(t_mini *mini)
 {
-	int	len;
 	t_cmd	*tmp;
+	int		len;
 
 	len = 1;
 	tmp = mini->cmd;
-	while (tmp->next != NULL)
+	while (tmp->next)
 	{
 		len++;
 		tmp = tmp->next;
@@ -60,7 +60,6 @@ int		lst_size_cmd(t_mini *mini)
 	return (len);
 }
 
-// no hay malloc en parser!
 void	lst_clear_parser(t_cmd **lst)
 {
 	t_cmd	*tmp;
@@ -69,7 +68,7 @@ void	lst_clear_parser(t_cmd **lst)
 		return ;
 	while (*lst)
 	{
-		tmp =  (*lst)->next;
+		tmp = (*lst)->next;
 		free(lst);
 		*lst = tmp;
 	}
@@ -86,13 +85,4 @@ t_cmd	*clear_one_cmd(t_cmd **lst)
 	free(*lst);
 	*lst = NULL;
 	return (NULL);
-}
-
-void	del_first_cmd(t_cmd **lst)
-{
-	t_cmd	*tmp;
-
-	tmp = *lst;
-	*lst = tmp->next;
-	clear_one_cmd(&tmp);
 }

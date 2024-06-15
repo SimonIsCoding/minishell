@@ -50,7 +50,7 @@ char			*ft_strnstr(const char *big, const char *little, size_t len);
 int				ft_atoi(const char *str);
 unsigned int	ft_atoi_base(const char *str, const char *base);
 void			*ft_calloc(size_t number, size_t size);
-void			ft_free_double_array(char **str);
+void			ft_free_double_array(char ***str);
 char			*ft_strdup(const char *str);
 char			*ft_substr(char const *str, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);

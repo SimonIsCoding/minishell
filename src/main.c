@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:37:48 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/12 12:07:00 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/14 19:38:19 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 t_global_var	g_global_var = {0, 0, 0, 0};
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **envp)
 {
 	t_mini		mini;
-	t_builtin	*lst_env;
 
-	if (argc != 1 && argv[0])
+	if ((argc != 1 && argv[0]))
 	{
-		printf("Don't write any argument");
+		printf("Don't write any argument\n");
 		exit(0);
 	}
-	lst_env = NULL;
-	//mini.original_env = env;
-	mini.env = create_builtin_lst(&mini, lst_env, env);
-	concat_lst_env(&mini);
-//	mini.error_code = 0;
-	init_mini(&mini, env);
+	mini.env = NULL;
+	if (envp[0])
+	{
+		create_builtin_lst(&mini, &mini.env, envp);
+		concat_lst_env(&mini);
+	}
+	init_mini(&mini, envp);
 	mini_live(&mini);
 	return (0);
 }

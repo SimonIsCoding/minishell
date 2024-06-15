@@ -6,13 +6,13 @@
 #    By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 11:57:11 by simarcha          #+#    #+#              #
-#    Updated: 2024/06/11 19:00:54 by simarcha         ###   ########.fr        #
+#    Updated: 2024/06/15 17:28:24 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #SETUP
 CC                  = gcc
-CFLAGS              = -Wall -Werror -Wextra
+CFLAGS              = -Wall -Werror -Wextra -g #-g
 NAME                = minishell
 RM                  = rm -rf
 
@@ -22,7 +22,7 @@ INCLUDE_DIR         = includes/
 INCLUDE_FILES       = minishell.h \
                       libft.h
 INCLUDE             = $(addprefix $(INCLUDE_DIR), $(INCLUDE_FILES))
-INCLUDE_FLAGS       = -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
+INCLUDE_FLAGS       = -I$(INCLUDE_DIR) -I$(LIBFT_DIR)# -I$(READLINE_DIR)/include 
 
 #SRCS - Where the main files for this project are located
 SRCS_DIR            = src/
@@ -55,20 +55,27 @@ SRCS_FILES          = main.c \
                       builtins/builtin_echo.c \
                       builtins/builtin_pwd.c \
                       builtins/builtin_env.c \
+                      builtins/builtin_exit_utils.c \
                       builtins/builtin_exit.c \
                       builtins/builtin_utils_nodes.c \
                       builtins/builtin_export.c \
                       builtins/builtin_export_helper.c \
+					  builtins/builtin_export_value_with_quotes.c \
                       builtins/builtin_unset.c \
                       builtins/builtin_cd.c \
                       builtins/cleaning_builtin_nodes.c \
-                      utils/signals.c
+                      utils/signals.c                   \
+                      utils/utils.c
 SRCS                = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJ_SRCS            = $(SRCS:.c=.o)
 
 #READLINE
 READLINE_DIR        = ./readline-8.1
 READLINE_LIB        = -lreadline -lhistory -L$(READLINE_DIR)
+
+#READLINE_DIR = $(shell brew --prefix readline)
+
+#READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
 
 #LIBFT 
 LIBFT_DIR           = libft/

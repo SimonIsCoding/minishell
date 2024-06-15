@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   word_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/11 17:51:53 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:42:26 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char	**search_and_replace_variable_lead_zero(t_mini *mini,
-				t_builtin *env_variable, char *expand_name)
+				t_env_lst *env_variable, char *expand_name)
 {
-	t_builtin	*tmp;
+	t_env_lst	*tmp;
 	char		**word_splitted;
 
 	tmp = env_variable;

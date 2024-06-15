@@ -6,92 +6,102 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:07:20 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/12 11:09:39 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:45:43 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*static int	find_next(char *line, int *counter, int i, int lim)
+char	*get_home_value(t_mini *mini)
 {
-	int	index;
-
-	index = 0;
-	*counter += 1;
-	if (line[i] == lim)
+	t_env_lst	*tmp_builtin;
+	char		*result;
+	
+	result = NULL;
+	tmp_builtin = mini->env;
+	while (tmp_builtin)
 	{
-		index++;
-		while (line[index] && line[index] != lim)
-			index++;
+		if (ft_strcmp_simple(tmp_builtin->key, "HOME") == 0)
+			result = get_value_from_env(mini, tmp_builtin->key);
+		tmp_builtin = tmp_builtin->next;
 	}
-	//index++;
-	if (line[index] == lim)
-		*counter += 1;
-	//index++;
-	return (index);
+	return (result);
 }
 
-int	check_quotes(char *line)
-{
-	int	simple_quotes;
-	int	double_quotes;
-	int	i;
-
-	i = 0;
-	simple_quotes= 0;
-	double_quotes= 0;
-	while (line[i])
-	{
-		if (line[i] == 39)//39 refers to ' in the ascii table
-			i += find_next(line, &simple_quotes, i, 39);
-		if (line[i] == 34)//34 refers to " in the ascii table
-			i += find_next(line, &double_quotes, i, 34);
-		i++;
-	}
-	if (simple_quotes % 2 == 0 || double_quotes % 2 == 0)// ||
-	//	line[i] == '|' || line[i] == '>' || line[i] == '<')
-	{
-		printf("everything's good\n");
-		return (0);
-	}
-	printf("The line was not well written. Please try again.\n");
-	return (1);
-	// Here's a function that looks for a pipe character and then continues searching to find any letter character
-}
-*/
-
-void	check_quotes(char *line)
+void	count_pipes(t_mini *mini)
 {
 	int	i;
+	int	count;
 
-	i = 0;
-	while (line[i])
+	i = -1;
+	count = 0;
+	while (mini->line[++i])
+		if (mini->line[i] == '|')
+			count++;
+	mini->pipes = count;
+}
+
+int	count_args(t_lexer *lst)
+{
+	int		count;
+	t_lexer	*tmp;
+
+	count = 0;
+	tmp = lst;
+	while (tmp && tmp->token != PIPE)
 	{
-		if (line[i] == 34)//"
+		count++;
+		tmp = tmp->next;
+	}
+	return (count);
+}
+
+void	concat_lst_env(t_mini *mini)
+{
+	t_env_lst	*tmp;
+	int			i;
+	char		*joined_value;
+	char		*temp;
+
+	tmp = mini->env;
+	mini->env_cpy = (char **)malloc(
+			(ft_lstsize_builtin(tmp) + 1) * sizeof(char *));
+	if (!mini->env_cpy)
+		print_error(mini, 2);
+	i = 0;
+	while (tmp)
+	{
+		joined_value = NULL;
+		if (tmp->value != NULL)
 		{
-			i++;
-			while (line[i] && line[i] != 34)
+			temp = ft_strjoin("=", tmp->value);
+			if (!temp)
 			{
-//				write(1, "out\n", 4);
-				if (line[i] == 92 && i < (int)ft_strlen(line) - 1)
-					i++;
-				i++;//in this condition, we can also add a string to catch what's inside the quotes
+				ft_free_double_array(&mini->env_cpy);
+				print_error(mini, 2);
 			}
-			if (line[i] == '\0')
-				print_error(NULL, 0);
+			joined_value = ft_strjoin(tmp->key, temp);
+			free(temp);
+			if (!joined_value)
+			{
+				ft_free_double_array(&mini->env_cpy);
+				print_error(mini, 2);
+			}
 		}
-		else if (line[i] == 39)//'
+		else
 		{
-			i++;
-			while (line[i] && line[i] != 39)
+			joined_value = ft_strdup(tmp->key);
+			if (!joined_value)
 			{
-				if (line[i] == 92 && i < (int)ft_strlen(line) - 1)
-					i++;
-				i++;//in this condition, we can also add a string to catch what's inside the quotes
+				ft_free_double_array(&mini->env_cpy);
+				print_error(mini, 2);
 			}
-			if (line[i] == '\0')
-				print_error(NULL, 0);
 		}
+		mini->env_cpy[i] = joined_value;
+		tmp = tmp->next;
 		i++;
 	}
+	mini->env_cpy[i] = NULL;
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 12:47:49 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 18:54:46 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:19:19 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,35 @@
 
 int	get_pwd(t_mini *mini)//to free after having used it
 {
-	t_builtin	*tmp;
+	t_env_lst	*tmp;
 
+	//if (mini->pwd)
+	//	free(mini->pwd);
 	tmp = mini->env;
-	while (mini->env)
+	mini->pwd = NULL;
+	while (tmp)
 	{
-		if (ft_strncmp(mini->env->key, "PWD", 3) == 0)
+		if (ft_strncmp(tmp->key, "PWD", 3) == 0)
 		{
-			mini->pwd = mini->env->value;
-			return (EXIT_SUCCESS);
+			mini->pwd = tmp->value;
+			break ;
 		}
-		mini->env = mini->env->next;
+		/*if (ft_strncmp(tmp->key, "OLD_PWD", 3) == 0)
+		{
+			mini->old_pwd = ft_strdup(tmp->value);
+			break ;
+		}*/
+		tmp = tmp->next;
 	}
-	mini->env = tmp;
-	return (EXIT_FAILURE);
+	if (mini->pwd == NULL)
+		mini->pwd = getcwd(NULL, 0);
+	return (EXIT_SUCCESS);
 }
 
 int	builtin_pwd(t_mini *mini)
 {
+	//if (!mini->pwd)
+	//	mini->pwd = getcwd(NULL, 0);
 	ft_putendl_fd(mini->pwd, 1);
 	return (EXIT_SUCCESS);
 }

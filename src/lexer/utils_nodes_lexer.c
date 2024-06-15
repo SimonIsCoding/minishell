@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_nodes.c                                      :+:      :+:    :+:   */
+/*   utils_nodes_lexer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:47:44 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/16 15:16:44 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:08:08 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	list_add_node(t_lexer **lexer_list, enum e_operator token, char *str)
 
 t_lexer	*ft_new_node(char *str, int token)
 {
-	t_lexer		*new;
+	t_lexer				*new;
 	static unsigned int	i = 0;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
@@ -71,21 +71,4 @@ void	del_first_node(t_lexer **lst)
 	tmp = *lst;
 	*lst = tmp->next;
 	clear_one_node(&tmp);
-}
-
-void	lexer_clear(t_lexer **list)
-{
-	t_lexer	*tmp;
-
-	if (!*list)
-		return ;
-	while (*list)
-	{
-		tmp = (*list)->next;
-		if ((*list)->str)
-			free((*list)->str);
-		free(*list);
-		*list = tmp;
-	}
-	*list = NULL;
 }

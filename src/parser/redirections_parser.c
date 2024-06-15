@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redirections_parser.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:23:50 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/13 21:10:13 by asiercara        ###   ########.fr       */
+/*   Updated: 2024/06/13 20:32:52 by asiercara        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void	new_redirection(t_parser *parser, t_lexer *tmp)
 
 	node = ft_new_node(ft_strdup(tmp->next->str), tmp->token);
 	if (!node)
-		return ; //error malloc
+		return ;//print_error(mini, 2); //error malloc
 	ft_node_add_back(&parser->redirections, node);
 	parser->num_redirections++;
 	num_node_delete = tmp->num_node;
 	delone_node(num_node_delete, &parser->lexer);
-	//num_node_delete++;
-	num_node_delete = num_node_delete + 1;
+	num_node_delete += 1;
 	delone_node(num_node_delete, &parser->lexer);
 }
 
@@ -39,17 +38,17 @@ void	new_redirection(t_parser *parser, t_lexer *tmp)
 
 void	redirections(t_mini *mini, t_parser *parser)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	tmp = parser->lexer;
-	while (tmp && tmp->token == 0) //str
+	while (tmp && tmp->token == 0)
 		tmp = tmp->next;
-	if (!tmp || tmp->token == PIPE) // 1
+	if (!tmp || tmp->token == PIPE)
 		return ;
 	if (!tmp->next)
 		print_error(mini, SINTAX_ERROR);
 	if (tmp->next->token != 0)
-		token_error(mini, tmp->next->token); // not is a correct position of operation token
+		token_error(mini, tmp->next->token);
 	if (tmp->token >= RED_IN && tmp->token <= RED_OUT_APP)
 		new_redirection(parser, tmp);
 	redirections(mini, parser);

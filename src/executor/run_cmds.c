@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:36:30 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/12 12:19:37 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:12:04 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	ft_exec_cmd(t_mini *mini, t_cmd *cmd)
 	exit_code = 0;
 	if (cmd->redirections)
 		do_redirections(mini, cmd);
-	if(cmd->builtin != NOT_HAVE)
+	if (cmd->builtin != NOT_HAVE)
 	{
 		exit_code = do_builtin(mini, cmd);
 		exit(exit_code);
 	}
-	if (cmd->str[0][0])
+	if (cmd->str[0] && cmd->str[0][0])
 		exit_code = do_cmd(mini, cmd);
 	exit(exit_code);
 }
@@ -92,10 +92,10 @@ void	handle_single_cmd(t_mini *mini, t_cmd *cmd)
 {
 	int	pid;
 	int	status;
+	int	error;
 
-	// echo $? ==> echo -$?- -> global error
-	run_expander(mini, cmd);//MALLOC => to protect and to free for cmd
-	// echo "global error"
+	error = 0;
+	run_expander(mini, cmd);
 	if (cmd->builtin != NOT_HAVE)
 	{
 		g_global_var.error_code = do_builtin(mini, cmd);
@@ -108,6 +108,7 @@ void	handle_single_cmd(t_mini *mini, t_cmd *cmd)
 	if (pid == 0)
 		ft_exec_cmd(mini, cmd);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status) == false)
-		mini->error_code = WEXITSTATUS(status);
+	if (WIFEXITED(status))
+		error = WEXITSTATUS(status);
+	g_global_var.error_code = error;
 }

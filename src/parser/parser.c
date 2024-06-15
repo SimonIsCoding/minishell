@@ -6,38 +6,24 @@
 /*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:41:38 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/05/29 17:44:53 by asiercara        ###   ########.fr       */
+/*   Updated: 2024/06/13 20:32:12 by asiercara        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-// printf final test struct
-
 void	ft_print_parser(t_mini *mini)
 {
 	t_cmd	*tmp;
-	//t_lexer			*tmp2;
-	int	i = 0;
-	int	len = lst_size_cmd(mini);
+	int		i;
 
-	printf("1111111111STRING : %s\n", mini->cmd->next->str[0]);
+	i = 0;
 	tmp = mini->cmd;
-	printf("LEN %d\n", len);
-	//tmp2 = mini->simple_cmd->redirections;
 	while (tmp)
 	{
 		printf("1\n");
-		printf("Node %d, str** = %s;", i, tmp->str[0]);
-		/*printf("Node %d, str** = %s;", i, tmp->str[1]);*/
-
-		//if (tmp2->str)
-		//	printf("redirections str = %s, operator = %d", tmp2->str,
-		//		tmp2->token);
+		printf("Node %d, str** = %s\n", i, tmp->str[0]);
 		tmp = tmp->next;
-		//tmp2 = tmp2->next;
-		printf("\n");
 		i++;
 	}
 }
@@ -84,7 +70,6 @@ t_cmd	*create_cmd(t_mini *mini, t_parser *parser)
 
 int	parser(t_mini *mini)
 {
-	//static int	flag = 0;
 	t_parser	parser;
 	t_cmd		*new;
 
@@ -108,12 +93,5 @@ int	parser(t_mini *mini)
 		ft_node_add_back_parser(&mini->cmd, new);
 		mini->lexer = parser.lexer;
 	}
-	// !! siguientes dos lineas son para mac m2 !!!
-	/*if (flag == 0)
-	{
-		mini->cmd = mini->cmd->next;
-		mini->cmd->previous = NULL;
-		flag = 1;
-	}*/
 	return (EXIT_SUCCESS);
 }

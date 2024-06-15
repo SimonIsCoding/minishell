@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void	ft_lstclear_builtin(t_builtin **lst)
+void	ft_lstclear_builtin(t_env_lst **lst)
 {
-	t_builtin	*tmp;
-	t_builtin	*current;
+	t_env_lst	*tmp;
+	t_env_lst	*current;
 
 	if (!lst | !*lst)
 		return ;
@@ -31,7 +31,7 @@ void	ft_lstclear_builtin(t_builtin **lst)
 	*lst = NULL;
 }
 
-t_builtin	*clear_one_node_env(t_builtin **lst)
+t_env_lst	*clear_one_node_env(t_env_lst **lst)
 {
 	if ((*lst)->key)
 	{
@@ -48,20 +48,20 @@ t_builtin	*clear_one_node_env(t_builtin **lst)
 	return (NULL);
 }
 
-void	del_first_node_env(t_builtin **lst)
+void	del_first_node_env(t_env_lst **lst)
 {
-	t_builtin	*tmp;
+	t_env_lst	*tmp;
 
 	tmp = *lst;
 	*lst = tmp->next;
 	clear_one_node_env(&tmp);
 }
 
-void	delone_node_env(int num_del, t_builtin **lst)
+void	delone_node_env(int num_del, t_env_lst **lst)
 {
-	t_builtin	*node;
-	t_builtin	*prev;
-	t_builtin	*start;
+	t_env_lst	*node;
+	t_env_lst	*prev;
+	t_env_lst	*start;
 
 	start = *lst;
 	node = start;

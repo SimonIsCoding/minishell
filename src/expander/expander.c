@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:36:34 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/11 18:46:44 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:16:32 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,25 @@
 
 void	run_expander(t_mini *mini, t_cmd *cmd)
 {
-	t_cmd	*tmp;
+	t_lexer	*tmp;
 
-	tmp = cmd;
-	tmp->str = expand_cmd_line(mini, tmp->str);
-	while (tmp->redirections)
+	cmd->str = expand_cmd_line(mini, cmd->str);
+	if (cmd->str && (ft_strcmp_simple(cmd->str[0], "cd") == 0)
+		&& (cmd->str[1] && (ft_strcmp_simple(cmd->str[1], "~") == 0
+			|| ft_strcmp_simple(cmd->str[1], "~/") == 0)))
 	{
-		if (tmp->redirections->token != HDOC)
-			tmp->redirections->str = expand_str_line(mini,
-					tmp->redirections->str);
-		tmp->redirections = tmp->redirections->next;
+		if (variable_existence(mini, "$HOME", 0) == 0)
+		{
+			if (!mini->home_env)
+				print_error(mini, UNSET_HOME);
+		}
+	}
+	tmp = cmd->redirections;
+	while (tmp)
+	{
+		if (tmp->token != HDOC)
+			tmp->str = expand_str_line(mini, tmp->str);
+		tmp = tmp->next;
 	}
 }
 

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int do_redirections(t_mini *mini, t_cmd *cmd)
+int	do_redirections(t_mini *mini, t_cmd *cmd)
 {
 	t_lexer	*tmp;
 
@@ -24,14 +24,13 @@ int do_redirections(t_mini *mini, t_cmd *cmd)
 		else if (cmd->redirections->token == HDOC)
 			put_infile(mini, cmd->hdoc_filename);
 		else if (cmd->redirections->token == RED_OUT
-				|| cmd->redirections->token == RED_OUT_APP)
+			|| cmd->redirections->token == RED_OUT_APP)
 			put_outfile(mini, cmd->redirections, cmd->redirections->str);
 		cmd->redirections = cmd->redirections->next;
 	}
 	cmd->redirections = tmp;
 	return (EXIT_SUCCESS);
 }
-
 
 int	put_infile(t_mini *mini, char *filename)
 {
@@ -68,4 +67,3 @@ int	put_outfile(t_mini *mini, t_lexer *lex, char *filename)
 	}
 	return (EXIT_SUCCESS);
 }
-

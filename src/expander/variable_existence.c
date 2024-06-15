@@ -36,7 +36,7 @@ void	variable_existence_helper(char *str, int *i, int *j, int *k)
 //the argument i is important because it's where we start
 int	variable_existence(t_mini *mini, char *str, int i)
 {
-	t_builtin	*tmp;
+	t_env_lst	*tmp;
 	int			k;
 	int			j;
 	char		*env_key;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_the_line.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:23:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/12 11:31:37 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:46:18 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	expand_error_code(t_mini *mini, int *i, char *result)
 	k = 0;
 	(*i) = (*i) + 2;
 	number = ft_itoa(g_global_var.error_code);
-	printf("number error_code %i\n", g_global_var.error_code);
 	if (!number)
 		print_error(mini, 2);
 	while (number[j])
