@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:17:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/10 15:53:10 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:15:21 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	manage_dollar_variable(t_mini *mini, char *str, int *i, int *counter)
 		forget_the_variable(str, i);
 }
 
-//92 in the ascii table <=> BACKSLASH
 //if we have the line to expand, this function returns the size that we will
 //need for the malloc
 int	calculate_len_for_malloc(t_mini *mini, char *str)
@@ -115,13 +114,12 @@ int	calculate_len_for_malloc(t_mini *mini, char *str)
 	check = 0;
 	while (str[i] && i < (int)ft_strlen(str))
 	{
-		if (str[i] == BACKSLASH)
-			i++;
-		if ((i > 0 && str[i] == '$' && str[i - 1] == 92) || (str[i] != '$'))
-		{
-			counter++;
-			i++;
-		}
+		if (str[i] == BACKSLASH || ((i > 0 && str[i] == '$'
+					&& str[i - 1] == BACKSLASH) || (str[i] != '$')))
+			iterate_classic_characters(str, &i, &counter);
+		else if (i < (int)ft_strlen(str) - 1 && str[i] == '$'
+			&& str[i + 1] == '?')
+			create_space_for_error_code(mini, &i, &counter);
 		else
 		{
 			manage_dollar_variable(mini, str, &i, &counter);

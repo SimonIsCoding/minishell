@@ -37,21 +37,6 @@ void	delone_node(int num_del, t_lexer **lst)
 	}
 }
 
-void	lst_clear_lexer(t_lexer **lst)
-{
-	t_lexer	*tmp;
-
-	if (!*lst)
-		return ;
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		free(lst);
-		*lst = tmp;
-	}
-	*lst = NULL;
-}
-
 int	lst_size_lexer(t_mini *mini)
 {
 	int		len;

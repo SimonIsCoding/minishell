@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 16:58:48 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/14 17:25:19 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:59:05 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	exit_with_one_argument(t_mini *mini, char *str1, char *str2)
 {
 	int	exit_code;
 
-	if (ft_isdigit_and_signs(str1) == 0)
+	if (ft_isdigit_and_signs(str1) == 0 || (check_zero(str1) == 0
+			&& (check_exit_number(str1, "9223372036854775807",
+					"-9223372036854775808") == 0)))
 		return (free_mini(mini), exit(numeric_argument_required(str1)), 2);
 	else
 	{

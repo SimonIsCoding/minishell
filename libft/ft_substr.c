@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 12:22:21 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/01/11 11:20:57 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:31:01 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,17 @@ int	main(void)
 	char			*res = ft_substr(str, start, len);
 
 	printf("%s", res);
+	return (0);
+}*/
+/*
+#include <stdio.h>
+int	main(void)
+{
+	const char		str[99] = "Hola test";
+	unsigned int	start = 1;
+	size_t			len = 0;
+	char			*res = ft_substr(str, start, len);
+
+	printf("result = _%s_", res);
 	return (0);
 }*/

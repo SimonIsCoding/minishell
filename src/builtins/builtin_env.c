@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:11:30 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/15 17:42:15 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:31:49 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 //for each line of our env, we want to get the characters before the '='
 //this will be the content of the 'key' variable in our structure
@@ -71,6 +71,7 @@ t_env_lst	*ft_lstnew_builtin(t_mini *mini, char *env)
 {
 	t_env_lst	*new_node;
 	char		*delimiter;
+	static int	index = 0;
 
 	(void)mini;
 	new_node = (t_env_lst *)malloc(sizeof(t_env_lst));
@@ -87,6 +88,7 @@ t_env_lst	*ft_lstnew_builtin(t_mini *mini, char *env)
 		new_node->key = ft_strdup(env);
 		new_node->value = NULL;
 	}
+	new_node->index = index++;
 	new_node->next = NULL;
 	return (new_node);
 }

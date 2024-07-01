@@ -6,7 +6,7 @@
 /*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:38:51 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/12 13:42:26 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:08:48 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ char	*expand_the_line_lead_zero(t_mini *mini, char *str)
 
 	i = 0;
 	j = calculate_len_for_malloc(mini, str);
-	result = malloc(sizeof(char) * j + 1);
+	result = malloc((j + 1) * sizeof(char));
 	if (!result)
 		print_error(mini, 2);
 	j = 0;
-	while (str[i])
+	while (str[i] && i <= j)
 	{
 		if (str[i] == BACKSLASH)
 			i++;

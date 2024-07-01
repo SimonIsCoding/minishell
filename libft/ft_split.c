@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:47:28 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/02/08 13:13:55 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:04:40 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static char	**subsplit(char const *s, char c, char **arr, size_t words)
 		arr[i] = put_word(s, j, get_len_word(&s[j], c));
 		if (!arr[i])
 		{
-			while (--i >= 0)
+			while (i > 0)
 			{
-				free(arr[i]);
+				free(arr[--i]);
 				return (NULL);
 			}
 		}

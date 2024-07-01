@@ -42,7 +42,7 @@ int				ft_tolower(int ch);
 char			*ft_strchr(const char *str, int c);
 char			*ft_strrchr(const char *str, int ch);
 int				ft_strcmp(char *s1, char *s2);
-int				ft_strcmp_simple(char *s1, char *s2);
+int				ft_strcmp_simple(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 void			*ft_memchr(const void *buffer, int c, size_t count);
 int				ft_memcmp(const void *ptr1, const void *ptr2, size_t num);

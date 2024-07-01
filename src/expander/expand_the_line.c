@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_the_line.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:23:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/06/13 12:46:18 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:08:31 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	expand_dollar_variable(t_mini *mini, char *str, int *i, char *result)
 
 //the goal of this function is to show the error_code when we have: echo $?
 //the result has to be a number which represents the last error_code
+
 int	expand_error_code(t_mini *mini, int *i, char *result)
 {
 	int		j;
@@ -58,7 +59,7 @@ int	expand_error_code(t_mini *mini, int *i, char *result)
 	j = 0;
 	k = 0;
 	(*i) = (*i) + 2;
-	number = ft_itoa(g_global_var.error_code);
+	number = ft_itoa(mini->error_code);
 	if (!number)
 		print_error(mini, 2);
 	while (number[j])

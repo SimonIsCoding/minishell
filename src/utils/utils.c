@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:07:20 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/15 17:45:43 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:35:17 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_home_value(t_mini *mini)
 {
 	t_env_lst	*tmp_builtin;
 	char		*result;
-	
+
 	result = NULL;
 	tmp_builtin = mini->env;
 	while (tmp_builtin)
@@ -56,52 +56,21 @@ int	count_args(t_lexer *lst)
 	return (count);
 }
 
-void	concat_lst_env(t_mini *mini)
+int	save_pwd(t_mini *mini, char **env)
 {
-	t_env_lst	*tmp;
-	int			i;
-	char		*joined_value;
-	char		*temp;
+	int	i;
 
-	tmp = mini->env;
-	mini->env_cpy = (char **)malloc(
-			(ft_lstsize_builtin(tmp) + 1) * sizeof(char *));
-	if (!mini->env_cpy)
-		print_error(mini, 2);
 	i = 0;
-	while (tmp)
+	while (env[i])
 	{
-		joined_value = NULL;
-		if (tmp->value != NULL)
-		{
-			temp = ft_strjoin("=", tmp->value);
-			if (!temp)
-			{
-				ft_free_double_array(&mini->env_cpy);
-				print_error(mini, 2);
-			}
-			joined_value = ft_strjoin(tmp->key, temp);
-			free(temp);
-			if (!joined_value)
-			{
-				ft_free_double_array(&mini->env_cpy);
-				print_error(mini, 2);
-			}
-		}
-		else
-		{
-			joined_value = ft_strdup(tmp->key);
-			if (!joined_value)
-			{
-				ft_free_double_array(&mini->env_cpy);
-				print_error(mini, 2);
-			}
-		}
-		mini->env_cpy[i] = joined_value;
-		tmp = tmp->next;
+		if (!ft_strncmp(env[i], "PWD=", 4))
+			mini->pwd = ft_substr(env[i], 4, ft_strlen(env[i]) - 4);
+		if (!ft_strncmp(env[i], "OLDPWD=", 7))
+			mini->old_pwd = ft_substr(env[i], 7, ft_strlen(env[i]) - 7);
 		i++;
 	}
-	mini->env_cpy[i] = NULL;
+	if (mini->pwd[0] == '\0')
+		return (0);
+	else
+		return (1);
 }
-
-

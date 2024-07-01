@@ -6,7 +6,7 @@
 /*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:47:43 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/12 13:39:52 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:57:21 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 int	pre_executor(t_mini *mini)
 {
-	g_global_var.inside_cmd = 1;
+	signal(SIGQUIT, sigquit_handler);
+	mini->inside_cmd = 1;
+	g_status = 0;
 	count_pipes(mini);
 	if (mini->pipes == 0)
 		handle_single_cmd(mini, mini->cmd);
 	else
 		executor(mini);
-	g_global_var.inside_cmd = 0;
+	if (g_status != 0)
+		mini->error_code = g_status + 128;
+	mini->inside_cmd = 0;
 	return (EXIT_SUCCESS);
 }
 // Generador de números pseudoaleatorios lineal congruencial (LCG)
@@ -49,10 +53,11 @@ void	remove_eof_quotes(t_lexer *node)
 {
 	char	*str;
 
-	str = node->str;
+	str = ft_strdup(node->str);
 	free(node->str);
-	if (str[0] == '\"' || str[0] == '\'')
-		node->str = ft_substr(str, 1, ft_strlen(str) - 1);
+	if (str && (str[0] == '\"' || str[0] == '\''))
+		node->str = ft_substr(str, 1, ft_strlen(str) - 2);
+	free(str);
 }
 
 t_env_lst	*find_node_path(t_env_lst *lst_env)

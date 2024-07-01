@@ -6,7 +6,7 @@
 /*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 12:10:41 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/13 12:44:37 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:07:06 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	executor(t_mini *mini)
 		else
 			break ;
 	}
-	wait_pipes(mini->pid, mini->pipes);
+	wait_pipes(mini, mini->pid);
 	return (0);
 }
 
@@ -94,17 +94,25 @@ int	check_next_fd_in(t_mini *mini, t_cmd *cmd, int fds[2])
 	return (fd_in);
 }
 
-void	wait_pipes(int *pid, int pipes)
+void	wait_pipes(t_mini *mini, int *pid)
 {
 	int	i;
 	int	status;
 
 	i = 0;
-	while (i <= pipes)
+	while (i < mini->pipes)
 	{
 		waitpid(pid[i], &status, 0);
 		i++;
 	}
+	waitpid(pid[i], &status, 0);
 	if (WIFEXITED(status))
-		g_global_var.error_code = WEXITSTATUS(status);
+		mini->error_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			mini->error_code = 130;
+		else if (WTERMSIG(status) == SIGQUIT)
+			mini->error_code = 131;
+	}
 }

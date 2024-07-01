@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:37 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/15 17:57:04 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:15:04 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,15 @@
 # include <readline/history.h>
 # include <stdbool.h>
 
-# define QUOTE		39
-# define DQUOTE		34
-# define BACKSLASH	92
+# define QUOTE			39
+# define DQUOTE			34
+# define BACKSLASH		92
+//# define LONG_LONG_MAX	9223372036854775807
+//# define LONG_LONG_MIN 	-9223372036854775808
 
 // STRUCTS
 
-// signals global variable
-
-typedef struct s_global_var
-{
-	int		inside_cmd;
-	int		inside_hdoc;
-	int		outside_hdoc;
-	int		error_code;
-}	t_global_var;
-
-extern t_global_var		g_global_var;
+extern int	g_status;
 
 // 		Main struct
 
@@ -64,8 +56,11 @@ typedef struct s_mini
 	int						flag_hdoc;
 	int						flag_reset;
 	int						*pid;
+	int						inside_cmd;
+	int						inside_hdoc;
+	int						outside_hdoc;
 	int						error_code;
-	struct s_cmd		*cmd;
+	struct s_cmd			*cmd;
 }	t_mini;
 
 //		Enum for builtins
@@ -97,7 +92,9 @@ enum	e_error_codes
 	CD_ERROR,
 	UNLINK_ERROR,
 	MAX_HDOC,
-	UNSET_HOME
+	UNSET_HOME,
+	EXPORT_ERROR,
+	RANDOM,
 };
 
 enum e_operator
@@ -263,29 +260,31 @@ int				ft_lstsize_builtin(t_env_lst *lst);
 char			*get_key_from_env(t_mini *mini, char *str);
 char			*get_value_from_env(t_mini *mini, char *str);
 void			remove_special_node(t_env_lst **head);
-t_env_lst		*sort_ascii(t_env_lst *lst_export, t_env_lst *sorted);
 int				check_variable(char *str);
-//char			*clean_value(char *str);//YOU MIGHT HAVE A LEAK
 char			*clean_value(t_mini *mini, char *str);
-
-char			*value_to_export(t_mini *mini, const char *str, const char quote_to_del);
+char			*value_to_export(t_mini *mini, const char *str,
+					const char quote_to_del);
 char			*value_with_quotes(t_mini *mini, char *str);
-
-
-
+char			*modify_line(t_mini *mini, char *str);
+char			*modify_line_aux(char **env, char *tmp);
+char			*return_value(t_mini *mini, char *str);
+t_env_lst		*sort_ascii(t_env_lst *lst_export, t_env_lst *sorted);
 void			print_env_export(t_mini *mini, int flag);
 int				lines_counter(char **array);
 int				check_zero(char *str);
 int				ft_isdigit_and_signs(char *str);
 int				numeric_argument_required(char *str);
 int				check_exit_many_arguments(char *str);
+int				check_exit_number(char *str_user, char *positive_lim,
+					char *negative_lim);
 int				exit_with_one_argument(t_mini *mini, char *str1, char *str2);
-
 void			free_elements(char *str1, char *str2);
 void			free_mini(t_mini *mini);
 t_env_lst		*clear_one_node_env(t_env_lst **lst);
 void			del_first_node_env(t_env_lst **lst);
 void			delone_node_env(int num_del, t_env_lst **lst);
+void			cd_dash(t_mini *mini, int *error);
+int				do_cd(t_mini *mini, char *path);
 
 // Expander
 
@@ -308,6 +307,9 @@ int				update_the_situation(char c, int lead);
 int				invalid_characters(const char *str);
 int				is_dollar(char *str);
 int				is_equal(char *str);
+void			create_space_for_error_code(t_mini *mini, int *i, int *counter);
+void			iterate_classic_characters(char *str, int *i, int *counter);
+int				check_cd_home(t_mini *mini, t_cmd *cmd);
 int				calculate_len_for_malloc(t_mini *mini, char *str);
 
 // Executor
@@ -322,8 +324,10 @@ t_env_lst		*find_node_path(t_env_lst *lst_env);
 int				do_cmd(t_mini *mini, t_cmd *cmd_lst);
 int				do_builtin(t_mini *mini, t_cmd *cmd);
 void			handle_single_cmd(t_mini *mini, t_cmd *cmd);
-void			wait_pipes(int *pid, int pipes);
+void			wait_pipes(t_mini *mini, int *pid);
 int				check_next_fd_in(t_mini *mini, t_cmd *cmd, int fds[2]);
+void			ft_free_paths(char **str);
+int				not_found(char *str);
 
 // Redirections
 
@@ -333,12 +337,14 @@ int				put_outfile(t_mini *mini, t_lexer *lex, char *filename);
 
 // Hdoc
 
+void			set_up_signals_hdoc(void);
 int				check_if_exists_hdoc(t_mini *mini, t_cmd *cmd);
 char			*generate_filename(void);
 int				check_eof(t_mini *mini, t_lexer	*redir, char *hdoc_filename);
 int				open_save_hdoc(t_mini *mini, t_lexer *redir,
 					char *hdoc_filename, bool quotes);
 void			remove_eof_quotes(t_lexer *node);
+void			check_max_hdoc(t_mini *mini, t_lexer *redirects);
 
 // Utils nodes
 
@@ -349,21 +355,19 @@ void			clear_one_node(t_lexer **lst);
 void			del_first_node(t_lexer **lst);
 void			delone_node(int num_del, t_lexer **lst);
 int				lst_size_lexer(t_mini *mini);
-void			lst_clear_lexer(t_lexer **lst);
 void			lexer_clear(t_lexer **list);
 
 // Signals
 
 void			init_signals(void);
-void			sigquit_handler(int signal);
 void			sigint_handler(int signal);
+void			sigquit_handler(int signal);
 
 // Random utils
 
-//void			check_quotes(char *line);
-int				 check_quotes_is_married(char *line);
+int				check_quotes_is_married(char *line);
 char			*get_home_value(t_mini *mini);
-
+int				save_pwd(t_mini *mini, char **env);
 
 // Errors
 

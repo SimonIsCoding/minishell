@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_live.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:52:42 by asiercara         #+#    #+#             */
-/*   Updated: 2024/06/15 17:26:24 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:08:27 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 int	mini_live(t_mini *mini)
 {
-	mini->line = readline("shelldone >");
+	if (mini->error_code != 0)
+		mini->line = readline("\x1b[31mshelldone >\x1b[0m");
+	else
+		mini->line = readline("\x1b[32mshelldone >\x1b[0m");
 	clear_line(mini);
 	if (mini->line == NULL)
 	{
@@ -23,9 +26,9 @@ int	mini_live(t_mini *mini)
 	}
 	if (mini->line[0] == '\0')
 		mini_reset(mini);
-	add_history(mini->line);
 	if (!check_quotes_is_married(mini->line))
 		print_error(mini, 1);
+	add_history(mini->line);
 	if (!lexer_tokenizer(mini))
 		print_error(mini, 1);
 	parser(mini);
@@ -33,8 +36,6 @@ int	mini_live(t_mini *mini)
 	mini_reset(mini);
 	return (0);
 }
-
-
 
 void	init_mini(t_mini *mini, char **env)
 {
@@ -45,12 +46,11 @@ void	init_mini(t_mini *mini, char **env)
 	mini->flag_reset = 0;
 	mini->pid = NULL;
 	mini->original_env = env;
-	mini->home_env = get_value_from_env(mini, "HOME");//HOME TO INITIALIZE
-	g_global_var.inside_cmd = 0;
-	g_global_var.inside_hdoc = 0;
-	g_global_var.outside_hdoc = 0;
+	mini->home_env = get_value_from_env(mini, "HOME");
+	mini->inside_cmd = 0;
+	mini->inside_hdoc = 0;
+	mini->outside_hdoc = 0;
 	init_signals();
-	get_pwd(mini);
 }
 
 static void	lst_clear_cmds_helper(t_cmd **cmd, t_cmd *tmp_cmd)
@@ -100,8 +100,6 @@ int	mini_reset(t_mini *mini)
 		free(mini->line);
 	if (mini->pid)
 		free(mini->pid);
-	//free(mini->pwd);
-	//free(mini->old_pwd);
 	init_mini(mini, mini->original_env);
 	mini_live(mini);
 	return (0);

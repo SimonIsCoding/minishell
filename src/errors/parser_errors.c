@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:43:08 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/06/15 18:01:01 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:59:36 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,15 @@ int	print_fatal_error(t_mini *mini, int keycode)
 		ft_putendl_fd("dup2: Error", STDERR_FILENO);
 	else if (keycode == MAX_HDOC)
 		ft_putendl_fd("maximum here-document count exceeded", STDERR_FILENO);
-	ft_putendl_fd("exit", STDERR_FILENO);
+	else if (keycode == RANDOM)
+		ft_putendl_fd("exit", STDERR_FILENO);
 	exit(2);
 }
 
-int	print_error(t_mini *mini, int keycode)
+static void	handle_specific_error(int keycode)
 {
-	ft_putstr_fd("shelldone: ", STDERR_FILENO);
-	if (keycode == MALLOC_ERROR || keycode == PIPE_ERROR
-		|| keycode == FORK_ERROR || keycode == DUP2_ERROR
-		|| keycode == MAX_HDOC || keycode == UNSET_HOME)
-		print_fatal_error(mini, keycode);
 	if (keycode == SINTAX_ERROR)
-		ft_putstr_fd("syntax error near unexpected token\n", 1);
+		ft_putstr_fd("syntax error near unexpected token\n", STDERR_FILENO);
 	else if (keycode == IN_ERROR)
 		ft_putstr_fd("in: No such file or directory\n", STDERR_FILENO);
 	else if (keycode == OUT_ERROR)
@@ -53,6 +49,21 @@ int	print_error(t_mini *mini, int keycode)
 	}
 	else if (keycode == UNLINK_ERROR)
 		ft_putstr_fd("unlink: No such file or directory\n", STDERR_FILENO);
+	else if (keycode == EXPORT_ERROR)
+		ft_putstr_fd("not a valid identifier\n", STDERR_FILENO);
+}
+
+int	print_error(t_mini *mini, int keycode)
+{
+	ft_putstr_fd("shelldone: ", STDERR_FILENO);
+	if (keycode == MALLOC_ERROR || keycode == PIPE_ERROR
+		|| keycode == FORK_ERROR || keycode == DUP2_ERROR
+		|| keycode == MAX_HDOC || keycode == UNSET_HOME
+		|| keycode == RANDOM)
+		print_fatal_error(mini, keycode);
+	else
+		handle_specific_error(keycode);
+	mini->error_code = STDERR_FILENO;
 	mini_reset(mini);
 	return (EXIT_FAILURE);
 }
@@ -71,7 +82,7 @@ int	token_error(t_mini *mini, int token)
 		ft_putstr_fd("'<<'\n", STDERR_FILENO);
 	else if (token == RED_OUT_APP)
 		ft_putstr_fd("'>>'\n", STDERR_FILENO);
-	lexer_clear(&mini->lexer);
+	mini->error_code = STDERR_FILENO;
 	mini_reset(mini);
-	return (EXIT_FAILURE); // exit code 258 bash;
+	return (EXIT_FAILURE);
 }

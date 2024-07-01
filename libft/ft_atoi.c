@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anovio-c <anovio-c@student.42barcel>       +#+  +:+       +#+        */
+/*   By: anovio-c <anovio-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:56:28 by anovio-c          #+#    #+#             */
-/*   Updated: 2024/01/10 16:48:01 by anovio-c         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:02:16 by anovio-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_atoi(const char *str)
 	int	res;
 	int	sign;
 
+	if (!str)
+		return (0);
 	res = 0;
 	sign = 1;
 	while (*str == ' ' || *str == '\t' || *str == '\n'
@@ -34,25 +36,14 @@ int	ft_atoi(const char *str)
 	res *= sign;
 	return (res);
 }
-/*
-#include <stdio.h>
-#include <stdlib.h>
 
-int     ft_isdigit(int c)
-{
-        if (c >= '0' && c <= '9')
-                return (1);
-        return (0);
-}
-
+/*#include <stdio.h>
 int	main(void)
 {
-	char	str[8] = "  --234";
-	int	res = ft_atoi(str);
-
-	printf("  --234: %d\n", ft_atoi(str));
-	printf("  --234: %d\n", atoi(str));
-
-	//printf("El string es: %s, y su conversion a numerico es: %d\n", str, res);
+	char	s[5] = "";
+	int		result;
+	
+	result = ft_atoi(s);
+	printf("result = %i\n", result);
 	return (0);
 }*/
